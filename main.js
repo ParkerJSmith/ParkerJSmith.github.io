@@ -88,7 +88,7 @@ class FileExplorer {
         this.parent = parent;
         this.fileList = [];
         this.fileList.push(new FileItem("secret_government_docs", "folder"));
-        this.fileList.push(new FileItem("mikell_jaxon_thriller (NO VIRUS)", "folder"));
+        this.fileList.push(new FileItem("mikell_jaxon_thriller(NO VIRUS).exe", "executable"));
         this.fileList.push(new FileItem("fermats_last_theorem_proof.txt", "file"));
     }
 
@@ -103,6 +103,9 @@ class FileExplorer {
                     break;
                 case "file":
                     ctx.drawImage(document.getElementById("fileImage"), this.parent.xPos + 20, this.parent.yPos + 50 + (i * 50));
+                    break;
+                case "executable":
+                    ctx.drawImage(document.getElementById("programImage"), this.parent.xPos + 20, this.parent.yPos + 50 + (i * 50));
                     break; 
             }
             ctx.fillStyle = "black";
