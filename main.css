@@ -226,7 +226,7 @@ canvas {
 }
 
 .startMenuItemTriangle {
-    padding-top: 26px;
+    padding-top: 23px;
     width: 10%;
 }
 
@@ -236,4 +236,14 @@ canvas {
     border-top: 5px solid transparent;
     border-left: 7px solid black;
     border-bottom: 5px solid transparent;
-  }
+}
+
+.turnedOff {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+    top: 0px;
+    left: 0px;
+}

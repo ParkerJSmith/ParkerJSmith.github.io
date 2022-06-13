@@ -130,6 +130,8 @@ document.addEventListener("click", closeWindow);
 document.getElementById("desktop").addEventListener("click", closeStartMenu);
 document.getElementById("startButton").addEventListener("click", toggleStartMenu);
 
+document.getElementById("shutDown").addEventListener("click", shutdown);
+
 document.getElementById("canvas").width = window.innerWidth;
 document.getElementById("canvas").height = window.innerHeight;
 var ctx = document.getElementById("canvas").getContext("2d");
@@ -138,6 +140,9 @@ var lastTime = Date.now();
 var frames = 0;
 var frameRate = 0;
 var frameRateOn = false;
+
+var renderOn = true;
+var finished = false;
 
 document.getElementById("startMenu").style.display = "none";
 window.requestAnimationFrame(gameLoop);
@@ -154,6 +159,9 @@ function tick() {
 
 function render() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    if (!renderOn) {
+        return;
+    }
     for (let i = 0; i < openWindows.length; i++) {
         openWindows[i].render();
     }
@@ -161,7 +169,7 @@ function render() {
 }
 
 function drawFrameRate() {
-    if (frameRateOn == false) {
+    if (!frameRateOn) {
         return;
     }
     ctx.fillStyle = "black";
@@ -203,6 +211,9 @@ function getFormattedTime() {
 }
 
 function bsod() {
+    if (finished) {
+        return;
+    }
     if (window.innerWidth < 600) {
         document.getElementById("bsod").style.display = "block";
         document.getElementById("taskbar").style.display = "none";
@@ -257,4 +268,12 @@ function toggleStartMenu() {
 
 function closeStartMenu() {
     document.getElementById("startMenu").style.display = "none";
+}
+
+function shutdown() {
+    document.getElementById("turnedOff").style.display = "block";
+    document.getElementById("taskbar").style.display = "none";
+    document.getElementById("startMenu").style.display = "none";
+    renderOn = false;
+    finished = true;
 }
