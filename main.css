@@ -181,9 +181,20 @@ canvas {
     position: absolute;
     bottom: 50px;
     height: 400px;
-    width: 200px;
+    width: 260px;
     background: rgb(195, 195, 195);
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+}
+
+.startMenuBorder {
+    border-right: 2px solid rgb(130, 130, 130);
+    border-bottom: 2px solid rgb(130, 130, 130);
     border-left: 60px solid rgb(130, 130, 130);
+    height: 398px;
+    width: 198px;
 }
 
 .startMenuBorderText {
@@ -192,14 +203,13 @@ canvas {
     font-family:'Franklin Gothic Regular';
     transform:rotate(270deg);
     position: absolute;
-    left: -190px;
+    left: -130px;
     bottom: 132px;
 }
 
 .startMenuList {
     display: flex;
     flex-direction: column;
-    font-family: w95fa;
 }
 
 .startMenuItem {
@@ -216,8 +226,10 @@ canvas {
 }
 
 .startMenuItemText {
-    padding-top: 20px;
+    padding-top: 16px;
     width: 60%;
+    font-family: w95fa;
+    font-size: 20px;
 }
 
 .startMenuItem:hover {
@@ -246,4 +258,55 @@ canvas {
     display: none;
     top: 0px;
     left: 0px;
+}
+
+.programList {
+    background-color: rgb(195, 195, 195);
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 250px;
+    left: 260px;
+    display: none;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.programListBorder {
+    border-right: 2px solid rgb(130, 130, 130);
+    border-bottom: 2px solid rgb(130, 130, 130);
+    height: 198px;
+}
+
+.programListItem {
+    height: 40px;
+    width: 100%;
+    display: flex;
+}
+
+.programListItem:hover {
+    background-color: #0000aa;
+    color: white;
+}
+
+.programListItemIcon {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.programIcon {
+    height: 18px;
+}
+
+.programListItemName {
+    font-family: w95fa;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-left: 6px;
+    user-select: none;
 }
