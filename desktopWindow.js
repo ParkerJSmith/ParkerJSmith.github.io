@@ -9,16 +9,6 @@ class DesktopWindow {
         this.dragging = false;
         this.dragX = 0;
         this.dragY = 0;
-        /*
-        switch (contentType) {
-            case "trash":
-                this.windowContent = new FileExplorer(this);
-                break;
-            case "calculator":
-                this.windowContent = new Calculator(this);
-                break;
-        }
-        */
     }
 
     render() {
@@ -67,10 +57,15 @@ class DesktopWindow {
 
     checkInteraction(xPos, yPos) {
         if (this.checkClose(xPos, yPos)) {
-            return true;
+            return -1;
         }
-        this.windowContent.checkInteraction(xPos, yPos);
-        return false;
+        if (xPos > this.xPos && xPos < this.xPos + this.width) {
+            if (yPos > this.yPos && yPos < this.yPos + this.height) {
+                this.windowContent.checkInteraction(xPos, yPos);
+                return 1;
+            }
+        }
+        return 0;
     }
 
     checkDrag(xPos, yPos) {
@@ -79,6 +74,7 @@ class DesktopWindow {
                 this.dragging = true;
                 this.dragX = xPos - this.xPos;
                 this.dragY = yPos - this.yPos;
+                return true;
             }
         }
     }
@@ -91,9 +87,11 @@ class DesktopWindow {
     checkClose(xPos, yPos) {
         if (xPos > this.xPos + this.width - 30 && xPos < this.xPos + this.width - 6) {
             if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
+                openWindows.splice(openWindows.indexOf(this), 1);
                 return true;
             }
         }
+        return false;
     }
 
     tick() {

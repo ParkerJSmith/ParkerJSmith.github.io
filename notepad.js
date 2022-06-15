@@ -1,8 +1,8 @@
-const ultraThinChars = ['i', 'l'];
-const thinChars = ['r', 'f', 'j', 't', 'I', '\''];
-const mediumChars = ['N', 'R', 'P', 'C', 'E', 'B', 'K'];
-const wideChars = ['w', 'm', 'M', 'G', 'A', 'D', 'H', 'O', 'Q', 'U', 'V', 'X', 'Y', 'Z'];
-const ultraWideChars = ['W'];
+const ultraThinChars = ['i', 'l', '!'];
+const thinChars = ['r', 'f', 'j', 't', 'I', '\'', '(', ')', ':'];
+const mediumChars = ['N', 'R', 'P', 'C', 'E', 'B', 'K', '#'];
+const wideChars = ['w', 'm', 'M', 'G', 'A', 'D', 'H', 'O', 'Q', 'U', 'V', 'X', 'Y', 'Z', '%'];
+const ultraWideChars = ['W', '@'];
 
 class Notepad {
     constructor(width, height, textFile) {
@@ -46,7 +46,11 @@ class Notepad {
             if (line * 20 + 60 > this.parent.height - 10) {
                 break;
             }
-            if (printString.charAt(i) == '\n' || lineOffset + 10 >= this.parent.width - 28) {
+            if (printString.charAt(i) == '\n') {
+                line++;
+                lineOffset = 0;
+                continue;
+            } else if (lineOffset + 10 >= this.parent.width - 28) {
                 line++;
                 lineOffset = 0;
             }
@@ -98,37 +102,84 @@ class Notepad {
             case "Space":
                 this.writeChar(" ");
                 return;
+            case "Enter":
+                this.writeChar("\n");
+                return;
             case "Period":
+                if (shiftPressed) {
+                    this.writeChar(">");
+                    return;
+                }
                 this.writeChar(".");
                 return;
             case "Comma":
+                if (shiftPressed) {
+                    this.writeChar("<");
+                    return;
+                }
                 this.writeChar(",");
                 return;
             case "Slash":
+                if (shiftPressed) {
+                    this.writeChar("?");
+                    return;
+                }
                 this.writeChar("/");
                 return;
             case "Backslash":
+                if (shiftPressed) {
+                    this.writeChar("|");
+                    return;
+                }
                 this.writeChar("\\");
                 return;
             case "Semicolon":
+                if (shiftPressed) {
+                    this.writeChar(":");
+                    return;
+                }
                 this.writeChar(";");
                 return;
             case "Quote":
+                if (shiftPressed) {
+                    this.writeChar("\"");
+                    return;
+                }
                 this.writeChar("\'");
                 return;
             case "BracketLeft":
+                if (shiftPressed) {
+                    this.writeChar("{");
+                    return;
+                }
                 this.writeChar("[");
                 return;
             case "BracketRight":
+                if (shiftPressed) {
+                    this.writeChar("}");
+                    return;
+                }
                 this.writeChar("]");
                 return;
             case "Minus":
+                if (shiftPressed) {
+                    this.writeChar("_");
+                    return;
+                }
                 this.writeChar("-");
                 return;
             case "Equal":
+                if (shiftPressed) {
+                    this.writeChar("+");
+                    return;
+                }
                 this.writeChar("=");
                 return;
             case "Backquote":
+                if (shiftPressed) {
+                    this.writeChar("~");
+                    return;
+                }
                 this.writeChar("`");
                 return;
             case "Backspace":
@@ -150,7 +201,7 @@ class Notepad {
             case "ArrowRight":
                 if (this.cursorPos < this.content.length) {
                     this.cursorPos++;
-                    console.log(this.content.slice(0, this.cursorPos ) + "|" + this.content.slice(this.cursorPos, this.content.length));
+                    console.log(this.content.slice(0, this.cursorPos) + "|" + this.content.slice(this.cursorPos, this.content.length));
                 }
                 return;
             default:
@@ -159,12 +210,49 @@ class Notepad {
     }
 
     writeChar(character) {
+        if (!shiftPressed) {
+            character = character.toLowerCase();
+        }
+        if (!isNaN(character) && shiftPressed) {
+            switch (character) {
+                case '1':
+                    character = '!';
+                    break;
+                case '2':
+                    character = '@';
+                    break;
+                case '3':
+                    character = '#';
+                    break;
+                case '4':
+                    character = '$';
+                    break;
+                case '5':
+                    character = '%';
+                    break;
+                case '6':
+                    character = '^';
+                    break;
+                case '7':
+                    character = '&';
+                    break;
+                case '8':
+                    character = '*';
+                    break;
+                case '9':
+                    character = '(';
+                    break;
+                case '0':
+                    character = ')';
+                    break;
+            }
+        }
         if (this.cursorPos == this.content.length) {
-            this.content += character.toLowerCase();
+            this.content += character;
         } else if (this.cursorPos == 0) {
-            this.content = character.toLowerCase() + this.content;
+            this.content = character + this.content;
         } else {
-            this.content = this.content.slice(0, this.cursorPos) + character.toLowerCase() + this.content.slice(this.cursorPos, this.content.length);
+            this.content = this.content.slice(0, this.cursorPos) + character + this.content.slice(this.cursorPos, this.content.length);
         }
         this.cursorPos++;
     }

@@ -20,6 +20,7 @@ document.getElementById("calculator").addEventListener("click", createCalculator
 document.getElementById("notepad").addEventListener("click", createNotepadWindow.bind(null, -1));
 document.getElementById("things").addEventListener("click", createNotepadWindow.bind(null, 0));
 document.addEventListener("keydown", typeNotepad);
+document.addEventListener("keyup", checkShift);
 document.addEventListener("click", windowInteraction);
 
 
@@ -37,6 +38,8 @@ var frameRateOn = false;
 
 var renderOn = true;
 var finished = false;
+
+var shiftPressed = false;
 
 document.getElementById("startMenu").style.display = "none";
 document.getElementById("programList").style.display = "none";
@@ -56,6 +59,9 @@ function tick() {
 function render() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     if (!renderOn) {
+        return;
+    }
+    if (openWindows.length == 0) {
         return;
     }
     for (let i = 0; i < openWindows.length; i++) {
@@ -143,8 +149,14 @@ function createNotepadWindow(fileNum) {
 }
 
 function checkMouseDrag(event) {
-    for (let i = 0; i < openWindows.length; i++) {
-        openWindows[i].checkDrag(event.clientX, event.clientY);
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        let checkValue = openWindows[i].checkDrag(event.clientX, event.clientY);
+        if (checkValue) {
+            let tempWindow = openWindows[i];
+            openWindows.splice(i, 1);
+            openWindows.push(tempWindow);
+            return;
+        }
     }
 }
 
@@ -200,17 +212,36 @@ function showDocuments() {
 }
 
 function windowInteraction(event) {
-    for (let i = 0; i < openWindows.length; i++) {
-        if (openWindows[i].checkInteraction(event.clientX, event.clientY)) {
+    if (openWindows.length == 0) {
+        return;
+    }
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        let checkValue = openWindows[i].checkInteraction(event.clientX, event.clientY);
+        if (checkValue == 1) {
+            let tempWindow = openWindows[i];
             openWindows.splice(i, 1);
+            openWindows.push(tempWindow);
+            return;
+        } else if (checkValue == -1) {
+            return;
         }
     }
 }
 
 function typeNotepad(event) {
+    console.log(event.code);
+    if (event.code.includes("Shift")) {
+        shiftPressed = true;
+    }
     for (let i = 0; i < openWindows.length; i++) {
         if (openWindows[i].windowContent instanceof Notepad && openWindows[i].windowContent.showCursor) {
             openWindows[i].windowContent.addType(event.code.toString());
         }
+    }
+}
+
+function checkShift(event) {
+    if (event.code.includes("Shift")) {
+        shiftPressed = false;
     }
 }
