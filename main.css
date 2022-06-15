@@ -310,3 +310,54 @@ canvas {
     padding-left: 6px;
     user-select: none;
 }
+
+.documentList {
+    background-color: rgb(195, 195, 195);
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 197px;
+    left: 260px;
+    display: none;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.documentListBorder {
+    border-right: 2px solid rgb(130, 130, 130);
+    border-bottom: 2px solid rgb(130, 130, 130);
+    height: 198px;
+}
+
+.documentListItem {
+    height: 40px;
+    width: 100%;
+    display: flex;
+}
+
+.documentListItem:hover {
+    background-color: #0000aa;
+    color: white;
+}
+
+.documentListItemIcon {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.documentIcon {
+    height: 18px;
+}
+
+.documentListItemName {
+    font-family: w95fa;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-left: 6px;
+    user-select: none;
+}

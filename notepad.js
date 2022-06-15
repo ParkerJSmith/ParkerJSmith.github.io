@@ -1,16 +1,3 @@
-const testString = "1. The morning sun always gonna shine again\n\
-2. A pot of gold waits at every rainbow's end\n\
-3. Roses kissed with dew\n\
-4. Make believe, fairy tales and lucky charms\n\
-5. Promises, spoken as you cross your heart\n\
-6. Skies forever blue\n\
-7. Silver linings\n\
-8. There'll come a day, maybe it will be tomorrow. When the blue bird flies away\n\
-9. A dream can still come true\n\
-10. Friends and laughter and the wonders love can do\n\
-11. Songs and magic\n\
-12. Second chances QWERTYUIOPASDFGHJKLZXCVBNM";
-
 const ultraThinChars = ['i', 'l'];
 const thinChars = ['r', 'f', 'j', 't', 'I', '\''];
 const mediumChars = ['N', 'R', 'P', 'C', 'E', 'B', 'K'];
@@ -18,10 +5,15 @@ const wideChars = ['w', 'm', 'M', 'G', 'A', 'D', 'H', 'O', 'Q', 'U', 'V', 'X', '
 const ultraWideChars = ['W'];
 
 class Notepad {
-    constructor(width, height, name) {
-        this.parent = new DesktopWindow(width, height, name, this);
+    constructor(width, height, textFile) {
+        if (textFile != null) {
+            this.content = textFile.textContent;
+        } else {
+            this.content = "";
+        }
+        this.parent = new DesktopWindow(width, height, textFile.fileName + " - Notepad", this);
         openWindows.push(this.parent);
-        this.content = testString;
+        this.textFile = textFile;
         this.showCursor = false;
         this.cursorPos = this.content.length;
         this.cursorAnimationFrame = 0;
@@ -57,7 +49,6 @@ class Notepad {
             if (printString.charAt(i) == '\n' || lineOffset + 10 >= this.parent.width - 28) {
                 line++;
                 lineOffset = 0;
-                continue;
             }
             if (ultraThinChars.includes(printString.charAt(i))) {
                 ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
@@ -83,7 +74,7 @@ class Notepad {
                 ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
                 lineOffset += 20;
                 continue;
-            } 
+            }
             ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
             lineOffset += 10;
         }
@@ -95,26 +86,86 @@ class Notepad {
             return;
         }
         this.showCursor = true;
-        console.log("clicked the notepad");
     }
 
     addType(character) {
         character = character.replace("Key", "");
+        character = character.replace("Digit", "");
         if (character.length == 1) {
-            this.content += character.toLowerCase();
-            this.cursorPos++;
+            this.writeChar(character);
         }
-        switch(character) {
+        switch (character) {
             case "Space":
-                this.content += " ";
-                this.cursorPos++;
+                this.writeChar(" ");
+                return;
+            case "Period":
+                this.writeChar(".");
+                return;
+            case "Comma":
+                this.writeChar(",");
+                return;
+            case "Slash":
+                this.writeChar("/");
+                return;
+            case "Backslash":
+                this.writeChar("\\");
+                return;
+            case "Semicolon":
+                this.writeChar(";");
+                return;
+            case "Quote":
+                this.writeChar("\'");
+                return;
+            case "BracketLeft":
+                this.writeChar("[");
+                return;
+            case "BracketRight":
+                this.writeChar("]");
+                return;
+            case "Minus":
+                this.writeChar("-");
+                return;
+            case "Equal":
+                this.writeChar("=");
+                return;
+            case "Backquote":
+                this.writeChar("`");
                 return;
             case "Backspace":
-                this.content = this.content.slice(0, this.content.length - 1);
-                this.cursorPos--;
+                if (this.cursorPos == 0) {
+                    return;
+                }
+                this.content = this.content.slice(0, this.cursorPos - 1) + this.content.slice(this.cursorPos, this.content.length);
+                if (this.cursorPos > 0) {
+                    this.cursorPos--;
+                }
+                return;
+
+            case "ArrowLeft":
+                if (this.cursorPos > 0) {
+                    this.cursorPos--;
+                    console.log(this.content.slice(0, this.cursorPos) + "|" + this.content.slice(this.cursorPos, this.content.length));
+                }
+                return;
+            case "ArrowRight":
+                if (this.cursorPos < this.content.length) {
+                    this.cursorPos++;
+                    console.log(this.content.slice(0, this.cursorPos ) + "|" + this.content.slice(this.cursorPos, this.content.length));
+                }
                 return;
             default:
                 return;
         }
+    }
+
+    writeChar(character) {
+        if (this.cursorPos == this.content.length) {
+            this.content += character.toLowerCase();
+        } else if (this.cursorPos == 0) {
+            this.content = character.toLowerCase() + this.content;
+        } else {
+            this.content = this.content.slice(0, this.cursorPos) + character.toLowerCase() + this.content.slice(this.cursorPos, this.content.length);
+        }
+        this.cursorPos++;
     }
 }

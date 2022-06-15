@@ -10,11 +10,15 @@ document.addEventListener("mouseup", stopMouseDrag);
 document.getElementById("desktop").addEventListener("click", closeStartMenu);
 document.getElementById("startButton").addEventListener("click", toggleStartMenu);
 document.getElementById("programs").addEventListener("mouseover", showPrograms);
+document.getElementById("documents").addEventListener("mouseover", showDocuments);
+document.getElementById("help").addEventListener("mouseover", closeDropDowns);
+document.getElementById("about").addEventListener("mouseover", closeDropDowns);
 document.getElementById("desktop").addEventListener("mouseover", closeDropDowns);
 
 // Applications
 document.getElementById("calculator").addEventListener("click", createCalculatorWindow);
-document.getElementById("notepad").addEventListener("click", createNotepadWindow);
+document.getElementById("notepad").addEventListener("click", createNotepadWindow.bind(null, -1));
+document.getElementById("things").addEventListener("click", createNotepadWindow.bind(null, 0));
 document.addEventListener("keydown", typeNotepad);
 document.addEventListener("click", windowInteraction);
 
@@ -36,6 +40,7 @@ var finished = false;
 
 document.getElementById("startMenu").style.display = "none";
 document.getElementById("programList").style.display = "none";
+document.getElementById("documentList").style.display = "none";
 window.requestAnimationFrame(gameLoop);
 
 function gameLoop() {
@@ -126,8 +131,13 @@ function createCalculatorWindow() {
     closeDropDowns();
 }
 
-function createNotepadWindow() {
-    new Notepad(640, 480, "Untitled - Notepad");
+function createNotepadWindow(fileNum) {
+    console.log(fileNum)
+    if (fileNum == -1) {
+        new Notepad(640, 480, new TextFile("", "untitled"));
+    } else {
+        new Notepad(640, 480, textFiles[fileNum]);
+    }
     closeStartMenu();
     closeDropDowns();
 }
@@ -176,11 +186,17 @@ function shutdown() {
 
 function closeDropDowns() {
     document.getElementById("programList").style.display = "none";
+    document.getElementById("documentList").style.display = "none";
 }
 
 function showPrograms() {
     closeDropDowns();
     document.getElementById("programList").style.display = "block";
+}
+
+function showDocuments() {
+    closeDropDowns();
+    document.getElementById("documentList").style.display = "block";
 }
 
 function windowInteraction(event) {
@@ -192,7 +208,6 @@ function windowInteraction(event) {
 }
 
 function typeNotepad(event) {
-    console.log("Type detected, key: " + event.code.toString());
     for (let i = 0; i < openWindows.length; i++) {
         if (openWindows[i].windowContent instanceof Notepad && openWindows[i].windowContent.showCursor) {
             openWindows[i].windowContent.addType(event.code.toString());

@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="startMenuItem">
+            <div class="startMenuItem" id="documents">
                 <div class="startMenuItemIcon">
                     <img src="images/file.png"></img>
                 </div>
@@ -89,26 +89,20 @@
                     <div class="triangleRight"></div>
                 </div>
             </div>
-            <div class="startMenuItem">
+            <div class="startMenuItem" id="help">
                 <div class="startMenuItemIcon">
                     <img src="images/help.png"></img>
                 </div>
                 <div class="startMenuItemText">
                     Help
                 </div>
-                <div class="startMenuItemTriangle">
-                    <div class="triangleRight"></div>
-                </div>
             </div>
-            <div class="startMenuItem">
+            <div class="startMenuItem" id="about">
                 <div class="startMenuItemIcon">
                     <img src="images/about.png"></img>
                 </div>
                 <div class="startMenuItemText">
                     About
-                </div>
-                <div class="startMenuItemTriangle">
-                    <div class="triangleRight"></div>
                 </div>
             </div>
             <div class="startMenuItem" id="shutDown">
@@ -141,11 +135,24 @@
             </div>
         </div>
     </div>
+    <div class="documentList" id="documentList">
+        <div class="documentListBorder">
+            <div class="documentListItem" id="things">
+                <div class="documentListItemIcon">
+                    <img class="documentIcon" src="images/file.png"></img>
+                </div>
+                <div class="documentListItemName">
+                    things_i_believe_in.txt
+                </div>
+            </div>
+        </div>
+    </div>
     <img src="images/x.png" class="hiddenImage" id="xImage">
     <img src="images/folder.png" class="hiddenImage" id="folderImage">
     <img src="images/file.png" class="hiddenImage" id="fileImage">
     <img src="images/programs.png" class="hiddenImage" id="programImage">
 
+    <script src="textFile.js"></script>
     <script src="notepad.js"></script>
     <script src="fileExplorer.js"></script>
     <script src="calculator.js"></script>
