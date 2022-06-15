@@ -1,6 +1,7 @@
 class FileExplorer {
-    constructor(parent) {
-        this.parent = parent;
+    constructor(width, height, name) {
+        this.parent = new DesktopWindow(width, height, name, this);
+        openWindows.push(this.parent);
         this.fileList = [];
         this.fileList.push(new FileItem("secret_government_docs", "folder"));
         this.fileList.push(new FileItem("mikell_jaxon_thriller(NO VIRUS).exe", "executable"));
@@ -9,7 +10,7 @@ class FileExplorer {
 
     render() {
         ctx.fillStyle = "white";
-        ctx.fillRect(this.parent.xPos + 10, this.parent.yPos + 40, this.parent.width - 18, this.parent.height - 48);
+        ctx.fillRect(this.parent.xPos + 10, this.parent.yPos + 42, this.parent.width - 18, this.parent.height - 48);
 
         for (let i = 0; i < this.fileList.length; i++) {
             switch (this.fileList[i].type) {
@@ -26,6 +27,10 @@ class FileExplorer {
             ctx.fillStyle = "black";
             ctx.fillText(this.fileList[i].name, this.parent.xPos + 65, this.parent.yPos + 78 + (i * 50));
         }
+    }
+
+    checkInteraction(xPos, yPos) {
+
     }
 }
 

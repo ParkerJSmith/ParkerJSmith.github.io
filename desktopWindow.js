@@ -1,13 +1,15 @@
 class DesktopWindow {
-    constructor(width, height, name, contentType) {
+    constructor(width, height, name, windowContent) {
         this.width = width;
         this.height = height;
         this.name = name;
+        this.windowContent = windowContent;
         this.xPos = 100;
         this.yPos = 100;
         this.dragging = false;
         this.dragX = 0;
         this.dragY = 0;
+        /*
         switch (contentType) {
             case "trash":
                 this.windowContent = new FileExplorer(this);
@@ -16,6 +18,7 @@ class DesktopWindow {
                 this.windowContent = new Calculator(this);
                 break;
         }
+        */
     }
 
     render() {

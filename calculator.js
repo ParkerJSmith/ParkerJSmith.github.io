@@ -1,6 +1,7 @@
 class Calculator {
-    constructor(parent) {
-        this.parent = parent;
+    constructor(width, height, name) {
+        this.parent = new DesktopWindow(width, height, name, this);
+        openWindows.push(this.parent);
         this.currentExpression = "";
         this.buttonsList = [];
         for (let i = 0; i < 9; i++) {

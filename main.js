@@ -12,9 +12,12 @@ document.getElementById("startButton").addEventListener("click", toggleStartMenu
 document.getElementById("programs").addEventListener("mouseover", showPrograms);
 document.getElementById("desktop").addEventListener("mouseover", closeDropDowns);
 
-// Calculator
+// Applications
 document.getElementById("calculator").addEventListener("click", createCalculatorWindow);
+document.getElementById("notepad").addEventListener("click", createNotepadWindow);
+document.addEventListener("keydown", typeNotepad);
 document.addEventListener("click", windowInteraction);
+
 
 // Shutdown
 document.getElementById("shutDown").addEventListener("click", shutdown);
@@ -114,13 +117,17 @@ function bsod() {
 }
 
 function createTrashWindow() {
-    let temp = new DesktopWindow(640, 480, "Trash", "trash");
-    openWindows.push(temp);
+    new FileExplorer(640, 480, "Trash");
 }
 
 function createCalculatorWindow() {
-    let temp = new DesktopWindow(300, 400, "Calculator", "calculator");
-    openWindows.push(temp);
+    new Calculator(300, 400, "Calculator");
+    closeStartMenu();
+    closeDropDowns();
+}
+
+function createNotepadWindow() {
+    new Notepad(640, 480, "Untitled - Notepad");
     closeStartMenu();
     closeDropDowns();
 }
@@ -141,6 +148,7 @@ function updateMouseDrag(event) {
     for (let i = 0; i < openWindows.length; i++) {
         if (openWindows[i].dragging) {
             openWindows[i].setDragPos(event.clientX, event.clientY);
+            break;
         }
     }
 }
@@ -161,6 +169,7 @@ function shutdown() {
     document.getElementById("turnedOff").style.display = "block";
     document.getElementById("taskbar").style.display = "none";
     document.getElementById("startMenu").style.display = "none";
+    closeDropDowns();
     renderOn = false;
     finished = true;
 }
@@ -178,6 +187,15 @@ function windowInteraction(event) {
     for (let i = 0; i < openWindows.length; i++) {
         if (openWindows[i].checkInteraction(event.clientX, event.clientY)) {
             openWindows.splice(i, 1);
+        }
+    }
+}
+
+function typeNotepad(event) {
+    console.log("Type detected, key: " + event.code.toString());
+    for (let i = 0; i < openWindows.length; i++) {
+        if (openWindows[i].windowContent instanceof Notepad && openWindows[i].windowContent.showCursor) {
+            openWindows[i].windowContent.addType(event.code.toString());
         }
     }
 }
