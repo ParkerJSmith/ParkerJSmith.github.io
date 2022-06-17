@@ -12,7 +12,6 @@ class Notepad {
             this.content = "";
         }
         this.parent = new DesktopWindow(width, height, textFile.fileName + " - Notepad", this);
-        openWindows.push(this.parent);
         this.textFile = textFile;
         this.showCursor = false;
         this.cursorPos = this.content.length;

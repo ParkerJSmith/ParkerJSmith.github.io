@@ -25,10 +25,10 @@ document.addEventListener("click", windowInteraction);
 
 
 // Shutdown
-document.getElementById("shutDown").addEventListener("click", shutdown);
+document.getElementById("shutDown").addEventListener("click", createShutdownPopup);
 
 document.getElementById("canvas").width = window.innerWidth;
-document.getElementById("canvas").height = window.innerHeight;
+document.getElementById("canvas").height = window.innerHeight - 50;
 var ctx = document.getElementById("canvas").getContext("2d");
 
 var lastTime = Date.now();
@@ -54,6 +54,7 @@ function gameLoop() {
 
 function tick() {
     updateTime();
+    closeWindows();
 }
 
 function render() {
@@ -112,6 +113,14 @@ function getFormattedTime() {
     return hour + ":" + minute + " " + meridian;
 }
 
+function closeWindows() {
+    for (let i = 0; i < openWindows.length; i++) {
+        if (openWindows[i].close) {
+            openWindows.splice(i, 1);
+        }
+    }
+}
+
 function bsod() {
     if (finished) {
         return;
@@ -119,12 +128,14 @@ function bsod() {
     if (window.innerWidth < 600) {
         document.getElementById("bsod").style.display = "block";
         document.getElementById("taskbar").style.display = "none";
+        closeStartMenu();
+        closeDropDowns();
     } else {
         document.getElementById("bsod").style.display = "none";
         document.getElementById("taskbar").style.display = "block";
     }
     document.getElementById("canvas").width = window.innerWidth;
-    document.getElementById("canvas").height = window.innerHeight;
+    document.getElementById("canvas").height = window.innerHeight - 50;
 }
 
 function createTrashWindow() {
@@ -140,12 +151,16 @@ function createCalculatorWindow() {
 function createNotepadWindow(fileNum) {
     console.log(fileNum)
     if (fileNum == -1) {
-        new Notepad(640, 480, new TextFile("", "untitled"));
+        new Notepad(640, 480, new TextFile("", "untitled.txt"));
     } else {
         new Notepad(640, 480, textFiles[fileNum]);
     }
     closeStartMenu();
     closeDropDowns();
+}
+
+function createShutdownPopup() {
+    new PopupWindow("Warning", "Are you sure you want to shut down?", "Shut down", "Cancel", shutdown);
 }
 
 function checkMouseDrag(event) {

@@ -9,6 +9,11 @@ class DesktopWindow {
         this.dragging = false;
         this.dragX = 0;
         this.dragY = 0;
+        this.moveable = true;
+        this.resizable = true;
+        this.fullscreen = false;
+        this.close = false;
+        openWindows.push(this);
     }
 
     render() {
@@ -52,6 +57,27 @@ class DesktopWindow {
 
         ctx.drawImage(document.getElementById("xImage"), this.xPos + this.width - 27, this.yPos + 13);
 
+        // Draw fullsize button
+        if (this.resizable) {
+            ctx.fillStyle = "rgb(195, 195, 195)";
+            ctx.fillRect(this.xPos + this.width - 55, this.yPos + 10, 22, 22);
+            ctx.fillStyle = "black";
+            ctx.fillRect(this.xPos + this.width - 55, this.yPos + 30, 22, 2);
+            ctx.fillRect(this.xPos + this.width - 35, this.yPos + 10, 2, 22);
+            ctx.fillStyle = "rgb(130, 130, 130)";
+            ctx.fillRect(this.xPos + this.width - 55, this.yPos + 28, 20, 2);
+            ctx.fillRect(this.xPos + this.width - 37, this.yPos + 10, 2, 20);
+            ctx.fillStyle = "white";
+            ctx.fillRect(this.xPos + this.width - 55, this.yPos + 10, 20, 2);
+            ctx.fillRect(this.xPos + this.width - 55, this.yPos + 10, 2, 20);
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(this.xPos + this.width - 51, this.yPos + 14, 12, 2);
+            ctx.fillRect(this.xPos + this.width - 51, this.yPos + 19, 12, 7);
+            ctx.fillRect(this.xPos + this.width - 51, this.yPos + 16, 2, 4);
+            ctx.fillRect(this.xPos + this.width - 41, this.yPos + 16, 2, 4);
+        }
+
         this.windowContent.render();
     }
 
@@ -59,6 +85,7 @@ class DesktopWindow {
         if (this.checkClose(xPos, yPos)) {
             return -1;
         }
+        this.checkFullsize(xPos, yPos);
         if (xPos > this.xPos && xPos < this.xPos + this.width) {
             if (yPos > this.yPos && yPos < this.yPos + this.height) {
                 this.windowContent.checkInteraction(xPos, yPos);
@@ -69,6 +96,9 @@ class DesktopWindow {
     }
 
     checkDrag(xPos, yPos) {
+        if (!this.moveable) {
+            return;
+        }
         if (xPos > this.xPos + 6 && xPos < this.xPos + this.width - 6) {
             if (yPos > this.yPos && yPos < this.yPos + 34) {
                 this.dragging = true;
@@ -92,6 +122,29 @@ class DesktopWindow {
             }
         }
         return false;
+    }
+
+    checkFullsize(xPos, yPos) {
+        if (!this.resizable) {
+            return;
+        }
+        if (xPos > this.xPos + this.width - 55 && xPos < this.xPos + this.width - 31) {
+            if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
+                if (!this.fullscreen) {
+                    this.xPos = 0;
+                    this.yPos = 0;
+                    this.width = window.innerWidth;
+                    this.height = window.innerHeight - 50;
+                    this.fullscreen = true;
+                } else {
+                    this.xPos = 100;
+                    this.yPos = 100;
+                    this.width = 640;
+                    this.height = 480;
+                    this.fullscreen = false;
+                }
+            }
+        }
     }
 
     tick() {

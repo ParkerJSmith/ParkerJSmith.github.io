@@ -1,7 +1,7 @@
 class Calculator {
     constructor(width, height, name) {
         this.parent = new DesktopWindow(width, height, name, this);
-        openWindows.push(this.parent);
+        this.parent.resizable = false;
         this.currentExpression = "";
         this.buttonsList = [];
         for (let i = 0; i < 9; i++) {
@@ -160,7 +160,6 @@ class Calculator {
     checkInteraction(xPos, yPos) {
         if (xPos < this.parent.xPos || xPos > this.parent.xPos + this.parent.width ||
             yPos < this.parent.yPos || yPos > this.parent.yPos + this.parent.height) {
-            console.log("check this, dig this");
             return;
         }
         for (let i = 0; i < this.buttonsList.length; i++) {

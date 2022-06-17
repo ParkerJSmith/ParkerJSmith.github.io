@@ -1,7 +1,6 @@
 class FileExplorer {
     constructor(width, height, name) {
         this.parent = new DesktopWindow(width, height, name, this);
-        openWindows.push(this.parent);
         this.fileList = [];
         this.fileList.push(new FileItem("secret_government_docs", "folder"));
         this.fileList.push(new FileItem("mikell_jaxon_thriller(NO VIRUS).exe", "executable"));
