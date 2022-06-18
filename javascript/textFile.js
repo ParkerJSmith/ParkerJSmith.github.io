@@ -7,7 +7,7 @@ class TextFile {
 
 var textFiles = [];
 
-textFiles.push(new TextFile(" 1. The morning sun always gonna shine again\n\
+textFiles.push(new TextFile("1. The morning sun always gonna shine again\n\
 2. A pot of gold waits at every rainbow's end\n\
 3. Roses kissed with dew\n\
 4. Make believe, fairy tales and lucky charms\n\

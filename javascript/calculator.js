@@ -60,7 +60,7 @@ class Calculator {
             ctx.fillRect(this.parent.xPos + 46 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
 
             ctx.fillStyle = "rgb(235, 235, 235)";
-            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 34, 2);
+            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 36, 2);
             ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
         }
 
@@ -104,7 +104,7 @@ class Calculator {
         ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
 
         ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 50, 2);
+        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
         ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
 
         ctx.fillStyle = "#760000";
@@ -124,7 +124,7 @@ class Calculator {
         ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
 
         ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 50, 2);
+        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
         ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
 
         ctx.fillStyle = "#760000";
@@ -144,7 +144,7 @@ class Calculator {
         ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
 
         ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 50, 2);
+        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
         ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
 
         ctx.fillStyle = "#760000";
