@@ -121,6 +121,17 @@ function closeWindows() {
     }
 }
 
+function resizeWindows() {
+    for (let i = 0; i < openWindows.length; i++) {
+        if (openWindows[i].fullscreen) {
+            openWindows[i].xPos = 0;
+            openWindows[i].yPos = 0;
+            openWindows[i].width = window.innerWidth;
+            openWindows[i].height = window.innerHeight - 50;
+        }
+    }
+}
+
 function bsod() {
     if (finished) {
         return;
@@ -136,6 +147,7 @@ function bsod() {
     }
     document.getElementById("canvas").width = window.innerWidth;
     document.getElementById("canvas").height = window.innerHeight - 50;
+    resizeWindows();
 }
 
 function createTrashWindow() {
@@ -149,7 +161,6 @@ function createCalculatorWindow() {
 }
 
 function createNotepadWindow(fileNum) {
-    console.log(fileNum)
     if (fileNum == -1) {
         new Notepad(640, 480, new TextFile("", "untitled.txt"));
     } else {
@@ -244,7 +255,6 @@ function windowInteraction(event) {
 }
 
 function typeNotepad(event) {
-    console.log(event.code);
     if (event.code.includes("Shift")) {
         shiftPressed = true;
     }

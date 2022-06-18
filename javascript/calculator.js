@@ -175,7 +175,7 @@ class Calculator {
                         this.currentExpression = "";
                         break;
                     case "back":
-                        this.currentExpression = this.currentExpression.slice(0, this.currentExpression.length - 2);
+                        this.currentExpression = this.currentExpression.slice(0, this.currentExpression.length - 1);
                         break;
                     case "+":
                         this.currentExpression += " " + input + " ";
@@ -195,35 +195,88 @@ class Calculator {
     }
 
     evaluateExpression(expression) {
-        console.log("Start Current expression: " + expression);
         expression = expression.replace(/ /g, '');
-        let number = "";
-        if (!isNaN(expression.charAt(expression.length - 1))) {
-            let i = expression.length - 1;
-            while (expression.charAt(i) != '' && !isNaN(expression.charAt(i))) {
+        while (expression.includes("*") || expression.includes("/")) {
+            let operation = "";
+            if (expression.indexOf("*") == -1) {
+                operation = "/";
+            } else if (expression.indexOf("/") == -1) {
+                operation = "*";
+            } else {
+                if (expression.indexOf("*") < expression.indexOf("/")) {
+                    operation = "*";
+                } else {
+                    operation = "/";
+                }
+            }
+            let leftNumber = "";
+            let i = expression.indexOf(operation) - 1;
+            while (expression.charAt(i) != '' && (!isNaN(expression.charAt(i)) || expression.charAt(i) == ".")) {
                 i--;
             }
-            number = expression.slice(i + 1);
-            expression = expression.slice(0, i + 1);
+            leftNumber = expression.slice(i + 1, expression.indexOf(operation));
+
+            let rightNumber = "";
+            let j = expression.indexOf(operation) + 1;
+            while (expression.charAt(j) != '' && (!isNaN(expression.charAt(j)) || expression.charAt(j) == ".")) {
+                j++;
+            }
+            rightNumber = expression.slice(expression.indexOf(operation) + 1, j);
+            if (i == -1) {
+                if (operation == "*") {
+                    expression = (parseFloat(leftNumber) * parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                } else {
+                    expression = (parseFloat(leftNumber) / parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                }
+            } else {
+                if (operation == "*") {
+                    expression = expression.slice(0, i + 1) + (parseFloat(leftNumber) * parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                } else {
+                    expression = expression.slice(0, i + 1) + (parseFloat(leftNumber) / parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                }
+            }
         }
-        console.log("New Current expression: " + expression);
-        switch (expression.charAt(expression.length - 1)) {
-            case "+":
-                return parseInt(this.evaluateExpression(expression.slice(0, expression.length - 1))) + parseInt(number);
-                break;
-            case "-":
-                console.log(number);
-                return parseInt(this.evaluateExpression(expression.slice(0, expression.length - 1))) - parseInt(number);
-                break;
-            case "*":
-                console.log(number);
-                return parseInt(this.evaluateExpression(expression.slice(0, expression.length - 1))) * parseInt(number);
-                break;
-            case "/":
-                return parseInt(this.evaluateExpression(expression.slice(0, expression.length - 1))) / parseInt(number);
-                break;
+        while (expression.includes("+") || expression.includes("-")) {
+            let operation = "";
+            if (expression.indexOf("+") == -1) {
+                operation = "-";
+            } else if (expression.indexOf("-") == -1) {
+                operation = "+";
+            } else {
+                if (expression.indexOf("+") < expression.indexOf("-")) {
+                    operation = "+";
+                } else {
+                    operation = "-";
+                }
+            }
+            let leftNumber = "";
+            let i = expression.indexOf(operation) - 1;
+            while (expression.charAt(i) != '' && (!isNaN(expression.charAt(i)) || expression.charAt(i) == ".")) {
+                i--;
+            }
+            leftNumber = expression.slice(i + 1, expression.indexOf(operation));
+
+            let rightNumber = "";
+            let j = expression.indexOf(operation) + 1;
+            while (expression.charAt(j) != '' && (!isNaN(expression.charAt(j)) || expression.charAt(j) == ".")) {
+                j++;
+            }
+            rightNumber = expression.slice(expression.indexOf(operation) + 1, j);
+            if (i == -1) {
+                if (operation == "+") {
+                    expression = (parseFloat(leftNumber) + parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                } else {
+                    expression = (parseFloat(leftNumber) - parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                }
+            } else {
+                if (operation == "+") {
+                    expression = expression.slice(0, i + 1) + (parseFloat(leftNumber) + parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                } else {
+                    expression = expression.slice(0, i + 1) + (parseFloat(leftNumber) - parseFloat(rightNumber)) + expression.slice(j, expression.length);
+                }
+            }
         }
-        return parseInt(number);
+        return expression;
     }
 }
 

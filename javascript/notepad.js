@@ -1,4 +1,4 @@
-const ultraThinChars = ['i', 'l', '!'];
+const ultraThinChars = ['i', 'l', '!', '|'];
 const thinChars = ['r', 'f', 'j', 't', 'I', '\'', '(', ')', ':'];
 const mediumChars = ['N', 'R', 'P', 'C', 'E', 'B', 'K', '#'];
 const wideChars = ['w', 'm', 'M', 'G', 'A', 'D', 'H', 'O', 'Q', 'U', 'V', 'X', 'Y', 'Z', '%'];
@@ -194,13 +194,11 @@ class Notepad {
             case "ArrowLeft":
                 if (this.cursorPos > 0) {
                     this.cursorPos--;
-                    console.log(this.content.slice(0, this.cursorPos) + "|" + this.content.slice(this.cursorPos, this.content.length));
                 }
                 return;
             case "ArrowRight":
                 if (this.cursorPos < this.content.length) {
                     this.cursorPos++;
-                    console.log(this.content.slice(0, this.cursorPos) + "|" + this.content.slice(this.cursorPos, this.content.length));
                 }
                 return;
             default:
