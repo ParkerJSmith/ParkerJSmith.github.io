@@ -27,20 +27,28 @@ class Minesweeper {
                     this.spaceList[i + 8].spaceType += 1;
                 }
 
-                if (this.spaceList[i].yCoord - 1 > -1 && this.spaceList[i - 1].spaceType != -1) {
-                    this.spaceList[i - 1].spaceType += 1;
+                if (this.spaceList[i].yCoord - 1 > -1) {
+                    if (this.spaceList[i - 1].spaceType != -1) {
+                        this.spaceList[i - 1].spaceType += 1;
+                    }
+                    // Top left
                     if (this.spaceList[i].xCoord - 1 > -1 && this.spaceList[i - 9].spaceType != -1) {
                         this.spaceList[i - 9].spaceType += 1;
                     }
+                    // Top right
                     if (this.spaceList[i].xCoord + 1 < 8 && this.spaceList[i + 7].spaceType != -1) {
                         this.spaceList[i + 7].spaceType += 1;
                     }
                 }
-                if (this.spaceList[i].yCoord + 1 < 8 && this.spaceList[i + 1].spaceType != -1) {
-                    this.spaceList[i + 1].spaceType += 1;
+                if (this.spaceList[i].yCoord + 1 < 8) {
+                    if (this.spaceList[i + 1].spaceType != -1) {
+                        this.spaceList[i + 1].spaceType += 1;
+                    }
+                    // Bottom right
                     if (this.spaceList[i].xCoord + 1 < 8 && this.spaceList[i + 9].spaceType != -1) {
                         this.spaceList[i + 9].spaceType += 1;
                     }
+                    // Bottom left
                     if (this.spaceList[i].xCoord - 1 > -1 && this.spaceList[i - 7].spaceType != -1) {
                         this.spaceList[i - 7].spaceType += 1;
                     }
@@ -117,6 +125,50 @@ class Minesweeper {
     gameFail() {
         for (let i = 0; i < this.spaceList.length; i++) {
             this.spaceList[i].hidden = false;
+        }
+    }
+
+    findEmptySpaces(root) {
+        root.hidden = false;
+
+        if (root.spaceType != 0) {
+            return;
+        }
+
+        let index = root.xCoord * 8 + root.yCoord;
+
+        if (this.spaceList[index].xCoord - 1 > -1 && this.spaceList[index - 8].hidden) {
+            this.findEmptySpaces(this.spaceList[index - 8]);
+        }
+        if (this.spaceList[index].xCoord + 1 < 8 && this.spaceList[index + 8].hidden) {
+            this.findEmptySpaces(this.spaceList[index + 8]);
+        }
+
+        if (this.spaceList[index].yCoord - 1 > -1) {
+            if (this.spaceList[index - 1].hidden) {
+                this.findEmptySpaces(this.spaceList[index - 1]);
+            }
+            // Top left
+            if (this.spaceList[index].xCoord - 1 > -1 && this.spaceList[index - 9].hidden) {
+                this.findEmptySpaces(this.spaceList[index - 9]);
+            }
+            // Top right
+            if (this.spaceList[index].xCoord + 1 < 8 && this.spaceList[index + 7].hidden) {
+                this.findEmptySpaces(this.spaceList[index + 7]);
+            }
+        }
+        if (this.spaceList[index].yCoord + 1 < 8) {
+            if (this.spaceList[index + 1].hidden) {
+                this.findEmptySpaces(this.spaceList[index + 1]);
+            }
+            // Bottom right
+            if (this.spaceList[index].xCoord + 1 < 8 && this.spaceList[index + 9].hidden) {
+                this.findEmptySpaces(this.spaceList[index + 9]);
+            }
+            // Bottom left
+            if (this.spaceList[index].xCoord - 1 > -1 && this.spaceList[index - 7].hidden) {
+                this.findEmptySpaces(this.spaceList[index - 7]);
+            }
         }
     }
 }
@@ -224,10 +276,11 @@ class Space {
         let yOffset = 163 + this.yCoord * 33;
         if (xPos > this.parent.xPos + xOffset && xPos < this.parent.xPos + xOffset + 33) {
             if (yPos > this.parent.yPos + yOffset && yPos < this.parent.yPos + yOffset + 33) {
-                this.hidden = false;
                 if (this.spaceType == -1) {
                     this.game.gameFail();
+                    return;
                 }
+                this.game.findEmptySpaces(this);
             }
         }
     }
@@ -241,5 +294,4 @@ class Space {
             }
         }
     }
-
 }
