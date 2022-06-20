@@ -1,6 +1,6 @@
 class Calculator {
-    constructor(width, height, name) {
-        this.parent = new DesktopWindow(width, height, name, this);
+    constructor() {
+        this.parent = new DesktopWindow(300, 400, "Calculator", this);
         this.parent.resizable = false;
         this.currentExpression = "";
         this.buttonsList = [];
@@ -188,6 +188,9 @@ class Calculator {
                         break;
                     case "*":
                         this.currentExpression += " " + input + " ";
+                        break;
+                    case ".":
+                        this.currentExpression += ".";
                         break;
                 }
             }

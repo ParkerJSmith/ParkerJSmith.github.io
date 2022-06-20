@@ -95,6 +95,14 @@ class DesktopWindow {
         return 0;
     }
 
+    checkInteractionRight(xPos, yPos) {
+        if (xPos > this.xPos && xPos < this.xPos + this.width) {
+            if (yPos > this.yPos && yPos < this.yPos + this.height) {
+                this.windowContent.checkInteractionRight(xPos, yPos);
+            }
+        }
+    }
+
     checkDrag(xPos, yPos) {
         if (!this.moveable) {
             return;

@@ -17,6 +17,8 @@ document.getElementById("desktop").addEventListener("mouseover", closeDropDowns)
 
 // Applications
 document.getElementById("calculator").addEventListener("click", createCalculatorWindow);
+document.getElementById("minesweeper").addEventListener("click", createMinesweeperWindow);
+document.addEventListener("contextmenu", windowInteractionRight);
 document.getElementById("notepad").addEventListener("click", createNotepadWindow.bind(null, -1));
 document.getElementById("things").addEventListener("click", createNotepadWindow.bind(null, 0));
 document.addEventListener("keydown", typeNotepad);
@@ -155,7 +157,13 @@ function createTrashWindow() {
 }
 
 function createCalculatorWindow() {
-    new Calculator(300, 400, "Calculator");
+    new Calculator();
+    closeStartMenu();
+    closeDropDowns();
+}
+
+function createMinesweeperWindow() {
+    new Minesweeper();
     closeStartMenu();
     closeDropDowns();
 }
@@ -251,6 +259,15 @@ function windowInteraction(event) {
         } else if (checkValue == -1) {
             return;
         }
+    }
+}
+
+function windowInteractionRight(event) {
+    if (openWindows.length == 0) {
+        return;
+    }
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        openWindows[i].checkInteractionRight(event.clientX, event.clientY);
     }
 }
 

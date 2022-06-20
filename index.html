@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body oncontextmenu="return false;">
     <canvas id="canvas">
         If you're seeing this, god help us all.
     </canvas>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="bsodText">
-            Oopsie woopsie, you made a fucky wucky! A widdle fucko boingo!
+            Oopsie woopsie, a problem has been detected and Parkdows has been shut down to prevent damage to your computer.
         </div>
     </div>
     <div class="turnedOff" id="turnedOff"></div>
@@ -135,6 +135,14 @@
                     Notepad
                 </div>
             </div>
+            <div class="programListItem" id="minesweeper">
+                <div class="programListItemIcon">
+                    <img class="programIcon" src="images/wine.png"></img>
+                </div>
+                <div class="programListItemName">
+                    Winesweeper
+                </div>
+            </div>
         </div>
     </div>
     <div class="documentList" id="documentList">
@@ -153,7 +161,10 @@
     <img src="images/folder.png" class="hiddenImage" id="folderImage">
     <img src="images/file.png" class="hiddenImage" id="fileImage">
     <img src="images/programs.png" class="hiddenImage" id="programImage">
+    <img src="images/wine2.png" class="hiddenImage" id="wineImage">
+    <img src="images/flag.png" class="hiddenImage" id="flagImage">
 
+    <script src="javascript/minesweeper.js"></script>
     <script src="javascript/popupWindow.js"></script>
     <script src="javascript/textFile.js"></script>
     <script src="javascript/notepad.js"></script>
