@@ -164,6 +164,9 @@ class Calculator {
         }
         for (let i = 0; i < this.buttonsList.length; i++) {
             let input = this.buttonsList[i].checkPressed(xPos, yPos);
+            if (this.currentExpression.length >= 18 && !(input == "=" || input == "clear")) {
+                input = "";
+            }
             if (!isNaN(input)) {
                 this.currentExpression += input;
             } else {

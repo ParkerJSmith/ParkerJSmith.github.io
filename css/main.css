@@ -205,6 +205,7 @@ canvas {
     font-family:'Franklin Gothic Regular';
     transform:rotate(270deg);
     position: fixed;
+    user-select: none;
     left: -120px;
     bottom: 184px;
 }
@@ -218,13 +219,20 @@ canvas {
     display: flex;
     width: 100%;
     padding-bottom: 5px;
-    user-select: none;
 }
 
-.startMenuItemIcon {
+.startMenuItemIconDiv {
     padding-top: 5px;
     padding-left: 10px;
     width: 30%;
+}
+
+.startMenuItemIcon {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .startMenuItemText {
@@ -335,6 +343,11 @@ canvas {
 
 .programIcon {
     height: 18px;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .programListItemName {
@@ -386,6 +399,11 @@ canvas {
 
 .documentIcon {
     height: 18px;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .documentListItemName {
