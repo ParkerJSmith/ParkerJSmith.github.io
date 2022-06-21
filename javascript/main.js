@@ -13,6 +13,7 @@ document.getElementById("programs").addEventListener("mouseover", showPrograms);
 document.getElementById("documents").addEventListener("mouseover", showDocuments);
 document.getElementById("help").addEventListener("mouseover", closeDropDowns);
 document.getElementById("about").addEventListener("mouseover", closeDropDowns);
+document.getElementById("about").addEventListener("click", createAboutWindow);
 document.getElementById("desktop").addEventListener("mouseover", closeDropDowns);
 
 // Applications
@@ -180,6 +181,12 @@ function createNotepadWindow(fileNum) {
 
 function createShutdownPopup() {
     new PopupWindow("Warning", "Are you sure you want to shut down?", "Shut down", "Cancel", shutdown);
+}
+
+function createAboutWindow() {
+    new AboutScreen();
+    closeStartMenu();
+    closeDropDowns();
 }
 
 function checkMouseDrag(event) {
