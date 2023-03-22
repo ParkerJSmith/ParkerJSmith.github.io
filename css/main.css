@@ -1,5 +1,6 @@
 @font-face { font-family: w95fa; src: url('../fonts/W95FA.otf'); }
 @font-face { font-family: bsod; src: url('../fonts/bsod.ttf'); }
+@font-face { font-family: franklin; src: url('../fonts/FranklinGothicRegular.ttf'); }
 
 body {
     background-color: rgb(0, 128, 128);

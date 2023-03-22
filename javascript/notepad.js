@@ -91,6 +91,14 @@ class Notepad {
         this.showCursor = true;
     }
 
+    checkInteractionRight(xPos, yPos) {
+
+    }
+
+    checkHoverInteraction(xPos, yPos) {
+
+    }
+
     addType(character) {
         character = character.replace("Key", "");
         character = character.replace("Digit", "");

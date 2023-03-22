@@ -200,6 +200,10 @@ class Calculator {
         }
     }
 
+    checkHoverInteraction() {
+        
+    }
+
     evaluateExpression(expression) {
         expression = expression.replace(/ /g, '');
         while (expression.includes("*") || expression.includes("/")) {

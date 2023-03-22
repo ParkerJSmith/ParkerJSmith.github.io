@@ -5,6 +5,7 @@ document.getElementById("trash").addEventListener("click", createTrashWindow);
 document.addEventListener("mousedown", checkMouseDrag);
 document.addEventListener("mousemove", updateMouseDrag);
 document.addEventListener("mouseup", stopMouseDrag);
+document.addEventListener("mousemove", windowHoverInteraction);
 
 // Start menu
 document.getElementById("desktop").addEventListener("click", closeStartMenu);
@@ -47,6 +48,7 @@ var shiftPressed = false;
 document.getElementById("startMenu").style.display = "none";
 document.getElementById("programList").style.display = "none";
 document.getElementById("documentList").style.display = "none";
+createAboutWindow();
 window.requestAnimationFrame(gameLoop);
 
 function gameLoop() {
@@ -275,6 +277,19 @@ function windowInteractionRight(event) {
     }
     for (let i = openWindows.length - 1; i >= 0; i--) {
         openWindows[i].checkInteractionRight(event.clientX, event.clientY);
+    }
+}
+
+function windowHoverInteraction(event) {
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
+            if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
+                openWindows[i].checkHoverInteraction(mouseX, mouseY);
+                return;
+            }
+        }
     }
 }
 

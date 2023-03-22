@@ -105,4 +105,12 @@ class PopupWindow {
             }
         }
     }
+    
+    checkInteractionRight(xPos, yPos) {
+
+    }
+
+    checkHoverInteraction(xPos, yPos) {
+
+    }
 }

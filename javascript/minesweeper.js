@@ -149,6 +149,10 @@ class Minesweeper {
         }
     }
 
+    checkHoverInteraction(xPos, yPos) {
+
+    }
+
     resetGame() {
         this.spaceList = [];
         for (let i = 0; i < 8; i++) {

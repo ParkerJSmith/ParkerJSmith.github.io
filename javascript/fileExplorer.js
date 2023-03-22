@@ -31,6 +31,14 @@ class FileExplorer {
     checkInteraction(xPos, yPos) {
 
     }
+
+    checkInteractionRight(xPos, yPos) {
+
+    }
+
+    checkHoverInteraction(xPos, yPos) {
+
+    }
 }
 
 class FileItem {

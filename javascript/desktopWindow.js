@@ -103,6 +103,10 @@ class DesktopWindow {
         }
     }
 
+    checkHoverInteraction(xPos, yPos) {
+        this.windowContent.checkHoverInteraction(xPos, yPos);
+    }
+
     checkDrag(xPos, yPos) {
         if (!this.moveable) {
             return;

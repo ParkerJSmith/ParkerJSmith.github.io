@@ -33,43 +33,47 @@ class AboutScreen {
 
         ctx.font = "20px Franklin Gothic Regular";
         yOffset = 148;
-        let lineText = "This is a website created by Parker Smith";
+        let lineText = "Hi, I'm Parker and this is my portfolio!";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         yOffset += 22;
-        lineText = "using vanilla  HTML / CSS / JS.  This  site";
+        lineText = "I'm a software developer with an int-";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         yOffset += 22;
-        lineText = "serves as Parker's  homepage and  inter-";
+        lineText = "erest in web/desktop application deve-";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         yOffset += 22;
-        lineText = "active portfolio.";
+        lineText = "lopment. I graduated in 2022 with a";
+        ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
+
+        yOffset += 22;
+        lineText = "B.Sc. in computer science from the";
+        ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
+
+        yOffset += 22;
+        lineText = "University of Calgary.";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         yOffset += 48;
-        lineText = "From the desktop you can follow links to";
-        ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
-
-        yOffset += 22;
-        lineText = "various other projects created by Parker.";
-        ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
-
-        yOffset += 22;
-        lineText = "Everything  you see on  this site was cre-";
+        lineText = "Everything you see on this site was cre-";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         xOffset = 44;
         yOffset += 22;
-        lineText = "ated (or rather, recreated) by Parker himself. If you'd like to contact";
+        lineText = "ated by myself. The links on the desktop will take you to my other";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
         yOffset += 22;
-        lineText = "or otherwise learn more about Parker you can do so via:";
+        lineText = "projects. If you'd like to contact or otherwise learn more about me";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
-        yOffset += 44;
+        yOffset += 22;
+        lineText = "you can do so via:";
+        ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
+
+        yOffset += 34;
         lineText = "GitHub:";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
         ctx.fillStyle = "#0000aa";
@@ -98,7 +102,49 @@ class AboutScreen {
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);
     }
 
-    checkInteraction() {
+    checkInteraction(xPos, yPos) {
+        if (xPos > this.parent.xPos + 110 && xPos < this.parent.xPos + 330) {
+            if (yPos > this.parent.yPos + 390 && yPos < this.parent.yPos + 407) {
+                window.open("https://github.com/ParkerJSmith");
+            }
+        }
 
+        if (xPos > this.parent.xPos + 120 && xPos < this.parent.xPos + 402) {
+            if (yPos > this.parent.yPos + 415 && yPos < this.parent.yPos + 433) {
+                window.open("https://www.linkedin.com/in/parker-smith99/");
+            }
+        }
+
+        if (xPos > this.parent.xPos + 100 && xPos < this.parent.xPos + 302) {
+            if (yPos > this.parent.yPos + 441 && yPos < this.parent.yPos + 459) {
+                window.open("mailto:parker.smith@shaw.ca");
+            }
+        }
+    }
+
+    checkHoverInteraction(xPos, yPos) {
+        console.log(document.getElementById("body").style.cursor);
+        if (xPos > this.parent.xPos + 110 && xPos < this.parent.xPos + 330) {
+            if (yPos > this.parent.yPos + 390 && yPos < this.parent.yPos + 407) {
+                document.getElementById("body").style.cursor = "pointer";
+                return;
+            }
+        }
+
+        if (xPos > this.parent.xPos + 120 && xPos < this.parent.xPos + 402) {
+            if (yPos > this.parent.yPos + 415 && yPos < this.parent.yPos + 433) {
+                document.getElementById("body").style.cursor = "pointer";
+                return;
+            }
+        }
+
+        if (xPos > this.parent.xPos + 100 && xPos < this.parent.xPos + 302) {
+            if (yPos > this.parent.yPos + 441 && yPos < this.parent.yPos + 459) {
+                document.getElementById("body").style.cursor = "pointer";
+                return;
+            }
+        }
+
+        document.getElementById("body").style.cursor = "default";
     }
 }
