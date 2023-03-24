@@ -1,9 +1,3 @@
-const ultraThinChars = ['i', 'l', '!', '|'];
-const thinChars = ['r', 'f', 'j', 't', 'I', '\'', '(', ')', ':'];
-const mediumChars = ['N', 'R', 'P', 'C', 'E', 'B', 'K', '#'];
-const wideChars = ['w', 'm', 'M', 'G', 'A', 'D', 'H', 'O', 'Q', 'U', 'V', 'X', 'Y', 'Z', '%'];
-const ultraWideChars = ['W', '@'];
-
 class Notepad {
     constructor(width, height, textFile) {
         if (textFile != null) {
@@ -42,7 +36,7 @@ class Notepad {
         let lineOffset = 0;
 
         for (let i = 0; i < printString.length; i++) {
-            if (line * 20 + 60 > this.parent.height - 10) {
+            if (line * 20 + 60 > this.parent.height - 14) {
                 break;
             }
             if (printString.charAt(i) == '\n') {
@@ -52,34 +46,11 @@ class Notepad {
             } else if (lineOffset + 10 >= this.parent.width - 28) {
                 line++;
                 lineOffset = 0;
-            }
-            if (ultraThinChars.includes(printString.charAt(i))) {
-                ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-                lineOffset += 4;
+                i--;
                 continue;
             }
-            if (thinChars.includes(printString.charAt(i))) {
-                ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-                lineOffset += 5;
-                continue;
-            }
-            if (mediumChars.includes(printString.charAt(i))) {
-                ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-                lineOffset += 11;
-                continue;
-            }
-            if (wideChars.includes(printString.charAt(i))) {
-                ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-                lineOffset += 13;
-                continue;
-            }
-            if (ultraWideChars.includes(printString.charAt(i))) {
-                ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-                lineOffset += 20;
-                continue;
-            }
-            ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
-            lineOffset += 10;
+           ctx.fillText(printString.charAt(i), this.parent.xPos + 16 + lineOffset, this.parent.yPos + 64 + line * 20);
+           lineOffset += CHAR_SIZE_MAP.get(printString.charAt(i)) / 1.3;
         }
     }
 

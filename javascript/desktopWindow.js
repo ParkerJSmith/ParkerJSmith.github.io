@@ -2,6 +2,8 @@ class DesktopWindow {
     constructor(width, height, name, windowContent) {
         this.width = width;
         this.height = height;
+        this.minWidth = 200;
+        this.minHeight = 80;
         this.name = name;
         this.windowContent = windowContent;
         this.xPos = 100;
@@ -9,6 +11,10 @@ class DesktopWindow {
         this.dragging = false;
         this.dragX = 0;
         this.dragY = 0;
+        this.resizeDragging = false;
+        this.resizeDragDirection = "none";
+        this.resizeDragX = 0;
+        this.resizeDragY = 0;
         this.moveable = true;
         this.resizable = true;
         this.fullscreen = false;
@@ -40,7 +46,14 @@ class DesktopWindow {
 
         ctx.fillStyle = "white";
         ctx.font = "26px w95fa";
-        ctx.fillText(this.name, this.xPos + 12, this.yPos + 30);
+        let charXOffset = 0;
+        for (let i = 0; i < this.name.length; i++) {
+            ctx.fillText(this.name.at(i), this.xPos + charXOffset + 12, this.yPos + 30);
+            charXOffset += CHAR_SIZE_MAP.get(this.name.at(i));
+            if (charXOffset > this.width - 84) {
+                break;
+            }
+        }
 
         // Draw x button
         ctx.fillStyle = "rgb(195, 195, 195)";
@@ -105,6 +118,155 @@ class DesktopWindow {
 
     checkHoverInteraction(xPos, yPos) {
         this.windowContent.checkHoverInteraction(xPos, yPos);
+    }
+
+    checkResizeHover(xPos, yPos) {
+        if (!this.resizable) {
+            return false;
+        }
+
+        const RESIZE_BOX_SIZE = 8;
+        // Top left check
+        if (xPos > this.xPos - RESIZE_BOX_SIZE && xPos < this.xPos + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos - RESIZE_BOX_SIZE && yPos < this.yPos + RESIZE_BOX_SIZE) {
+                document.getElementById("body").style.cursor = "nw-resize";
+                return true;
+            }
+        }
+
+        // Bottom left check 
+        if (xPos > this.xPos - RESIZE_BOX_SIZE && xPos < this.xPos + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos + this.height - RESIZE_BOX_SIZE && yPos < this.yPos + this.height + RESIZE_BOX_SIZE) {
+                document.getElementById("body").style.cursor = "sw-resize";
+                return true;
+            }
+        }
+
+        // Top right check 
+        if (xPos > this.xPos + this.width - RESIZE_BOX_SIZE && xPos < this.xPos + this.width + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos - RESIZE_BOX_SIZE && yPos < this.yPos + RESIZE_BOX_SIZE) {
+                document.getElementById("body").style.cursor = "ne-resize";
+                return true;
+            }
+        }
+
+        // Bottom right check 
+        if (xPos > this.xPos + this.width - RESIZE_BOX_SIZE && xPos < this.xPos + this.width + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos + this.height - RESIZE_BOX_SIZE && yPos < this.yPos + this.height + RESIZE_BOX_SIZE) {
+                document.getElementById("body").style.cursor = "se-resize";
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    checkResizeDrag(xPos, yPos) {
+        if (!this.resizable) {
+            return false;
+        }
+
+        this.fullscreen = false;
+
+        const RESIZE_BOX_SIZE = 8;
+        // Top left check
+        if (xPos > this.xPos - RESIZE_BOX_SIZE && xPos < this.xPos + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos - RESIZE_BOX_SIZE && yPos < this.yPos + RESIZE_BOX_SIZE) {
+                this.resizeDragging = true;
+                this.resizeDragDirection = "nw";
+                this.resizeDragX = xPos;
+                this.resizeDragY = yPos;
+                return true;
+            }
+        }
+
+        // Bottom left check 
+        if (xPos > this.xPos - RESIZE_BOX_SIZE && xPos < this.xPos + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos + this.height - RESIZE_BOX_SIZE && yPos < this.yPos + this.height + RESIZE_BOX_SIZE) {
+                this.resizeDragging = true;
+                this.resizeDragDirection = "sw";
+                this.resizeDragX = xPos;
+                this.resizeDragY = yPos;
+                return true;
+            }
+        }
+
+        // Top right check 
+        if (xPos > this.xPos + this.width - RESIZE_BOX_SIZE && xPos < this.xPos + this.width + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos - RESIZE_BOX_SIZE && yPos < this.yPos + RESIZE_BOX_SIZE) {
+                this.resizeDragging = true;
+                this.resizeDragDirection = "ne";
+                this.resizeDragX = xPos;
+                this.resizeDragY = yPos;
+                return true;
+            }
+        }
+
+        // Bottom right check 
+        if (xPos > this.xPos + this.width - RESIZE_BOX_SIZE && xPos < this.xPos + this.width + RESIZE_BOX_SIZE) {
+            if (yPos > this.yPos + this.height - RESIZE_BOX_SIZE && yPos < this.yPos + this.height + RESIZE_BOX_SIZE) {
+                this.resizeDragging = true;
+                this.resizeDragDirection = "se";
+                this.resizeDragX = xPos;
+                this.resizeDragY = yPos;
+                return true;
+            }
+        }
+
+        this.resizeDragging = false;
+        this.resizeDragDirection = "none";
+        this.resizeDragX = 0;
+        this.resizeDragY = 0;
+        return false;
+    }
+
+    setResizeDragPos(xPos, yPos) {
+        switch (this.resizeDragDirection) {
+            case "nw":
+                if (this.width + this.resizeDragX - xPos >= this.minWidth) {
+                    this.xPos = xPos;
+                    this.width += this.resizeDragX - xPos;
+                    this.resizeDragX = xPos;
+                }
+                if (this.height + this.resizeDragY - yPos >= this.minHeight) {
+                    this.yPos = yPos;
+                    this.height += this.resizeDragY - yPos;
+                    this.resizeDragY = yPos;
+                }
+                break;
+            case "sw":
+                if (this.width + this.resizeDragX - xPos >= this.minWidth) {
+                    this.xPos = xPos;
+                    this.width += this.resizeDragX - xPos;
+                    this.resizeDragX = xPos;
+                }
+                if (this.height + yPos - this.resizeDragY >= this.minHeight) {
+                    this.height += yPos - this.resizeDragY;
+                    this.resizeDragY = yPos;
+                }
+                break;
+            case "ne":
+                if (this.width + xPos - this.resizeDragX >= this.minWidth) {
+                    this.width += xPos - this.resizeDragX;
+                    this.resizeDragX = xPos;
+                }
+                if (this.height + this.resizeDragY - yPos >= this.minHeight) {
+                    this.yPos = yPos;
+                    this.height += this.resizeDragY - yPos;
+                    this.resizeDragY = yPos;
+                }
+                break;
+            case "se":
+                if (this.width + xPos - this.resizeDragX >= this.minWidth) {
+                    this.width += xPos - this.resizeDragX;
+                    this.resizeDragX = xPos;
+                }
+                if (this.height + yPos - this.resizeDragY >= this.minHeight) {
+                    this.height += yPos - this.resizeDragY;
+                    this.resizeDragY = yPos;
+                }
+                break;
+        }
     }
 
     checkDrag(xPos, yPos) {

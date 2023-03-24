@@ -5,7 +5,11 @@ document.getElementById("trash").addEventListener("click", createTrashWindow);
 document.addEventListener("mousedown", checkMouseDrag);
 document.addEventListener("mousemove", updateMouseDrag);
 document.addEventListener("mouseup", stopMouseDrag);
+document.addEventListener("mousedown", checkMouseResizeDrag);
+document.addEventListener("mousemove", updateMouseResizeDrag);
+document.addEventListener("mouseup", stopMouseResizeDrag);
 document.addEventListener("mousemove", windowHoverInteraction);
+document.addEventListener("mousemove", windowResizeHover);
 
 // Start menu
 document.getElementById("desktop").addEventListener("click", closeStartMenu);
@@ -146,9 +150,11 @@ function bsod() {
         document.getElementById("taskbar").style.display = "none";
         closeStartMenu();
         closeDropDowns();
+        renderOn = false;
     } else {
         document.getElementById("bsod").style.display = "none";
         document.getElementById("taskbar").style.display = "block";
+        renderOn = true;
     }
     document.getElementById("canvas").width = window.innerWidth;
     document.getElementById("canvas").height = window.innerHeight - 50;
@@ -189,33 +195,6 @@ function createAboutWindow() {
     new AboutScreen();
     closeStartMenu();
     closeDropDowns();
-}
-
-function checkMouseDrag(event) {
-    for (let i = openWindows.length - 1; i >= 0; i--) {
-        let checkValue = openWindows[i].checkDrag(event.clientX, event.clientY);
-        if (checkValue) {
-            let tempWindow = openWindows[i];
-            openWindows.splice(i, 1);
-            openWindows.push(tempWindow);
-            return;
-        }
-    }
-}
-
-function stopMouseDrag() {
-    for (let i = 0; i < openWindows.length; i++) {
-        openWindows[i].dragging = false;
-    }
-}
-
-function updateMouseDrag(event) {
-    for (let i = 0; i < openWindows.length; i++) {
-        if (openWindows[i].dragging) {
-            openWindows[i].setDragPos(event.clientX, event.clientY);
-            break;
-        }
-    }
 }
 
 function toggleStartMenu() {
@@ -289,6 +268,76 @@ function windowHoverInteraction(event) {
                 openWindows[i].checkHoverInteraction(mouseX, mouseY);
                 return;
             }
+        }
+    }
+}
+
+function windowResizeHover(event) {
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].checkResizeHover(mouseX, mouseY)) {
+            return;
+        }
+    }
+    if (document.getElementById("body").style.cursor != "pointer") {
+        document.getElementById("body").style.cursor = "default";
+    }
+}
+
+function checkMouseResizeDrag(event) {
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].checkResizeDrag(event.clientX, event.clientY)) {
+            let tempWindow = openWindows[i];
+            openWindows.splice(i, 1);
+            openWindows.push(tempWindow);
+            return;
+        }
+    }
+}
+
+function stopMouseResizeDrag() {
+    for (let i = 0; i < openWindows.length; i++) {
+        openWindows[i].resizeDragging = false;
+    }
+}
+
+function updateMouseResizeDrag(event) {
+    for (let i = 0; i < openWindows.length; i++) {
+        if (openWindows[i].resizeDragging) {
+            openWindows[i].setResizeDragPos(event.clientX, event.clientY);
+            break;
+        }
+    }
+}
+
+function checkMouseDrag(event) {
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
+    for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
+            if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
+                openWindows[i].checkDrag(event.clientX, event.clientY)
+                let tempWindow = openWindows[i];
+                openWindows.splice(i, 1);
+                openWindows.push(tempWindow);
+                return;
+            }
+        }
+    }
+}
+
+function stopMouseDrag() {
+    for (let i = 0; i < openWindows.length; i++) {
+        openWindows[i].dragging = false;
+    }
+}
+
+function updateMouseDrag(event) {
+    for (let i = 0; i < openWindows.length; i++) {
+        if (openWindows[i].dragging) {
+            openWindows[i].setDragPos(event.clientX, event.clientY);
+            break;
         }
     }
 }
