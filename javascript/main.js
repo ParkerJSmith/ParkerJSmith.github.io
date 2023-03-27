@@ -294,6 +294,11 @@ function windowResizeHover(event) {
         if (openWindows[i].checkResizeHover(mouseX, mouseY)) {
             return;
         }
+        if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
+            if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
+                return;
+            }
+        }
     }
     if (document.getElementById("body").style.cursor != "pointer") {
         document.getElementById("body").style.cursor = "default";
@@ -301,6 +306,8 @@ function windowResizeHover(event) {
 }
 
 function checkMouseResizeDrag(event) {
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
     for (let i = openWindows.length - 1; i >= 0; i--) {
         if (openWindows[i].checkResizeDrag(event.clientX, event.clientY)) {
             let tempWindow = openWindows[i];
@@ -308,6 +315,11 @@ function checkMouseResizeDrag(event) {
             openWindows.push(tempWindow);
 
             return;
+        }
+        if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
+            if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
+                return;
+            }
         }
     }
 }

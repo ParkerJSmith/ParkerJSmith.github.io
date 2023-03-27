@@ -130,7 +130,9 @@ class DesktopWindow {
         if (this.checkMinimize(xPos, yPos)) {
             return -1;
         }
-        this.checkFullsize(xPos, yPos);
+        if (this.checkFullsize(xPos, yPos)) {
+            return -1;
+        }
         if (xPos > this.xPos && xPos < this.xPos + this.width) {
             if (yPos > this.yPos && yPos < this.yPos + this.height) {
                 this.windowContent.checkInteraction(xPos, yPos);
@@ -341,7 +343,7 @@ class DesktopWindow {
 
     checkFullsize(xPos, yPos) {
         if (!this.resizable) {
-            return;
+            return false;
         }
         if (xPos > this.xPos + this.width - 55 && xPos < this.xPos + this.width - 31) {
             if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
@@ -351,15 +353,18 @@ class DesktopWindow {
                     this.width = window.innerWidth;
                     this.height = window.innerHeight - 50;
                     this.fullscreen = true;
+                    return true;
                 } else {
                     this.xPos = 100;
                     this.yPos = 100;
                     this.width = 640;
                     this.height = 480;
                     this.fullscreen = false;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     checkMinimize(xPos, yPos) {
@@ -381,13 +386,15 @@ class DesktopWindow {
     generateTaskbarTab() {
         /* Structure for HTML:
 
-        <div class="taskbarItem">
-            <div class="openWindow" id="openWindow0">
-                <div class="buttonIcon">
-                    <img src="images/start.png"></img>
-                </div>
-                <div class="openWindowText">
-                    Notepad
+        <div class="taskbarWindowsList">
+            <div class="openWindowContainer">
+                <div class="openWindow" id="openWindow0">
+                    <div class="buttonIcon">
+                        <img src="images/start.png"></img>
+                    </div>
+                    <div class="openWindowText">
+                        Notepad
+                    </div>
                 </div>
             </div>
         </div>
@@ -395,17 +402,17 @@ class DesktopWindow {
 
         const openWindowList = document.getElementById("taskbarWindowsList");
 
-        // taskbarItem
-        const taskbarItem = document.createElement("div");
-        taskbarItem.classList.add("taskbarItem");
-        openWindowList.appendChild(taskbarItem);
+        // openWindowContainer
+        const openWindowContainer = document.createElement("div");
+        openWindowContainer.classList.add("openWindowContainer");
+        openWindowList.appendChild(openWindowContainer);
 
         // openWindow
         const openWindow = document.createElement("div");
         openWindow.classList.add("openWindow");
         openWindow.id = "openWindow" + this.windowIndex;
         openWindow.onclick = taskbarClicked;
-        taskbarItem.appendChild(openWindow);
+        openWindowContainer.appendChild(openWindow);
         taskbarWindowsMap.set(openWindow.id, this);
 
         // buttonIcon
@@ -424,7 +431,7 @@ class DesktopWindow {
         openWindowText.innerHTML = this.name;
         openWindow.appendChild(openWindowText);
 
-        return taskbarItem;
+        return openWindowContainer;
     }
 
     removeTaskbarTab() {

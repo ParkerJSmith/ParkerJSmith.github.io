@@ -61,6 +61,8 @@ canvas {
 .taskbar {
     background-color: rgb(195, 195, 195);
     position: fixed;
+    display: flex;
+    flex-direction: row;
     left: 0px;
     bottom: 0px;
     width: 100%;
@@ -91,25 +93,35 @@ canvas {
 
 .startButtonText {
     padding-top: 4px;
-    padding-left: 45px;
+    padding-left: 37px;
     font-family: w95fa;
     font-size: 24px;
-    position: absolute;
 }
 
 .taskbarWindowsList {
-    position: absolute;
-    left: 120px;
-    bottom: 4px;
+    padding-top: 4px;
+    padding-left: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
+}
+
+.openWindowContainer {
+    flex-basis: 0;
+    width: 0;
+    max-width: 234px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    padding-right: 5px;
 }
 
 .openWindow {
     display: flex;
     flex-direction: row;
-    height: 36px;
-    width: 230px;
+    min-height: 36px;
+    max-width: 230px;
+    min-width: 30px;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
     border-left: 2px solid white;
@@ -159,7 +171,6 @@ canvas {
     border-top: 2px solid rgb(130, 130, 130);
     text-align: center;
     user-select: none;
-    position: absolute;
     bottom: 5px;
     right: 5px;
 }
