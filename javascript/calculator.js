@@ -1,5 +1,6 @@
 class Calculator {
     constructor() {
+        this.icon = './images/calculator.png';
         this.parent = new DesktopWindow(300, 400, "Calculator", this);
         this.parent.resizable = false;
         this.currentExpression = "";

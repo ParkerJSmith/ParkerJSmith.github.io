@@ -1,5 +1,6 @@
 class Notepad {
     constructor(width, height, textFile) {
+        this.icon = './images/notepad.png';
         if (textFile != null) {
             this.content = textFile.textContent;
         } else {

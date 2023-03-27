@@ -1,4 +1,5 @@
-var openWindows = [];
+let openWindows = [];
+let taskbarWindowsMap = new Map();
 
 window.addEventListener("resize", bsod);
 document.getElementById("trash").addEventListener("click", createTrashWindow);
@@ -122,6 +123,11 @@ function getFormattedTime() {
     return hour + ":" + minute + " " + meridian;
 }
 
+function addWindow(window) {
+    openWindows.push(window);
+    return openWindows.length - 1;
+}
+
 function closeWindows() {
     for (let i = 0; i < openWindows.length; i++) {
         if (openWindows[i].close) {
@@ -238,6 +244,9 @@ function windowInteraction(event) {
         return;
     }
     for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].minimized) {
+            continue;
+        }
         let checkValue = openWindows[i].checkInteraction(event.clientX, event.clientY);
         if (checkValue == 1) {
             let tempWindow = openWindows[i];
@@ -255,6 +264,9 @@ function windowInteractionRight(event) {
         return;
     }
     for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].minimized) {
+            continue;
+        }
         openWindows[i].checkInteractionRight(event.clientX, event.clientY);
     }
 }
@@ -263,6 +275,9 @@ function windowHoverInteraction(event) {
     let mouseX = event.clientX;
     let mouseY = event.clientY;
     for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].minimized) {
+            continue;
+        }
         if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
             if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
                 openWindows[i].checkHoverInteraction(mouseX, mouseY);
@@ -291,6 +306,7 @@ function checkMouseResizeDrag(event) {
             let tempWindow = openWindows[i];
             openWindows.splice(i, 1);
             openWindows.push(tempWindow);
+
             return;
         }
     }
@@ -315,6 +331,9 @@ function checkMouseDrag(event) {
     let mouseX = event.clientX;
     let mouseY = event.clientY;
     for (let i = openWindows.length - 1; i >= 0; i--) {
+        if (openWindows[i].minimized) {
+            continue;
+        }
         if (mouseX > openWindows[i].xPos && mouseX < openWindows[i].xPos + openWindows[i].width) {
             if (mouseY > openWindows[i].yPos && mouseY < openWindows[i].yPos + openWindows[i].height) {
                 openWindows[i].checkDrag(event.clientX, event.clientY)
@@ -356,5 +375,25 @@ function typeNotepad(event) {
 function checkShift(event) {
     if (event.code.includes("Shift")) {
         shiftPressed = false;
+    }
+}
+
+function taskbarClicked() {
+    const window = taskbarWindowsMap.get(this.id);
+    if (openWindows[openWindows.length - 1] != window) {
+        if (openWindows.length <= 1) {
+            return;
+        }
+        const isWindow = (element) => element === window;
+        const index = openWindows.findIndex(isWindow);
+        openWindows.splice(index, 1);
+        openWindows.push(window);
+        window.minimized = false;
+    } else {
+        if (window.minimized) {
+            window.minimized = false;
+        } else {
+            window.minimized = true;
+        }
     }
 }

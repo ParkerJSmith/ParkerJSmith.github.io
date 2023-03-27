@@ -97,6 +97,59 @@ canvas {
     position: absolute;
 }
 
+.taskbarWindowsList {
+    position: absolute;
+    left: 120px;
+    bottom: 4px;
+    display: flex;
+    flex-direction: row;
+}
+
+.openWindow {
+    display: flex;
+    flex-direction: row;
+    height: 36px;
+    width: 230px;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.openWindow.currentWindow {
+    background-color: rgb(189, 189, 189);
+}
+
+.openWindow:hover {
+    background-color: rgb(210, 210, 210);
+}
+
+.windowButtonIcon {
+    flex-basis: 10%;
+    padding-top: 4px;
+    padding-left: 6px;
+}
+
+.windowButtonIcon > img {
+    height: 28px;
+    width: 28px;
+}
+
+.openWindowText {
+    padding-top: 4px;
+    padding-left: 15px;
+    font-family: w95fa;
+    font-size: 24px;
+    text-overflow: ellipsis;
+    text-align: left;
+    overflow: hidden;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
 .time {
     height: 36px;
     width: 96px;
@@ -190,6 +243,7 @@ canvas {
     border-bottom: 2px solid black;
     border-left: 2px solid white;
     border-top: 2px solid white;
+    z-index: 100000000;
 }
 
 .startMenuBorder {

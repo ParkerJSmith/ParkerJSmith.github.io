@@ -18,11 +18,17 @@ class DesktopWindow {
         this.moveable = true;
         this.resizable = true;
         this.fullscreen = false;
+        this.minimized = false;
         this.close = false;
-        openWindows.push(this);
+        this.taskbarIcon = windowContent.icon;
+        this.windowIndex = addWindow(this);
+        this.taskbarElement = this.generateTaskbarTab();
     }
 
     render() {
+        if (this.minimized) {
+            return;
+        }
         // Draw window
         ctx.fillStyle = "rgb(195, 195, 195)";
         ctx.fillRect(this.xPos, this.yPos, this.width, this.height);
@@ -91,11 +97,37 @@ class DesktopWindow {
             ctx.fillRect(this.xPos + this.width - 41, this.yPos + 16, 2, 4);
         }
 
+        // Draw minimize button
+        let minimizeOffset = 0;
+        if (this.resizable) {
+            minimizeOffset = 25;
+        }
+        ctx.fillStyle = "rgb(195, 195, 195)";
+        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 22, 22);
+        ctx.fillStyle = "black";
+        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 30, 22, 2);
+        ctx.fillRect(this.xPos + this.width - 35 - minimizeOffset, this.yPos + 10, 2, 22);
+        ctx.fillStyle = "rgb(130, 130, 130)";
+        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 28, 20, 2);
+        ctx.fillRect(this.xPos + this.width - 37 - minimizeOffset, this.yPos + 10, 2, 20);
+        ctx.fillStyle = "white";
+        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 20, 2);
+        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 2, 20);
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(this.xPos + this.width - 51 - minimizeOffset, this.yPos + 24, 12, 2);
+
         this.windowContent.render();
     }
 
     checkInteraction(xPos, yPos) {
+        if (this.minimized) {
+            return -1;
+        }
         if (this.checkClose(xPos, yPos)) {
+            return -1;
+        }
+        if (this.checkMinimize(xPos, yPos)) {
             return -1;
         }
         this.checkFullsize(xPos, yPos);
@@ -109,6 +141,9 @@ class DesktopWindow {
     }
 
     checkInteractionRight(xPos, yPos) {
+        if (this.minimized) {
+            return;
+        }
         if (xPos > this.xPos && xPos < this.xPos + this.width) {
             if (yPos > this.yPos && yPos < this.yPos + this.height) {
                 this.windowContent.checkInteractionRight(xPos, yPos);
@@ -117,11 +152,14 @@ class DesktopWindow {
     }
 
     checkHoverInteraction(xPos, yPos) {
+        if (this.minimized) {
+            return;
+        }
         this.windowContent.checkHoverInteraction(xPos, yPos);
     }
 
     checkResizeHover(xPos, yPos) {
-        if (!this.resizable) {
+        if (!this.resizable || this.minimized) {
             return false;
         }
 
@@ -162,11 +200,9 @@ class DesktopWindow {
     }
 
     checkResizeDrag(xPos, yPos) {
-        if (!this.resizable) {
+        if (!this.resizable || this.minimized) {
             return false;
         }
-
-        this.fullscreen = false;
 
         const RESIZE_BOX_SIZE = 8;
         // Top left check
@@ -176,6 +212,7 @@ class DesktopWindow {
                 this.resizeDragDirection = "nw";
                 this.resizeDragX = xPos;
                 this.resizeDragY = yPos;
+                this.fullscreen = false;
                 return true;
             }
         }
@@ -187,6 +224,7 @@ class DesktopWindow {
                 this.resizeDragDirection = "sw";
                 this.resizeDragX = xPos;
                 this.resizeDragY = yPos;
+                this.fullscreen = false;
                 return true;
             }
         }
@@ -198,6 +236,7 @@ class DesktopWindow {
                 this.resizeDragDirection = "ne";
                 this.resizeDragX = xPos;
                 this.resizeDragY = yPos;
+                this.fullscreen = false;
                 return true;
             }
         }
@@ -209,6 +248,7 @@ class DesktopWindow {
                 this.resizeDragDirection = "se";
                 this.resizeDragX = xPos;
                 this.resizeDragY = yPos;
+                this.fullscreen = false;
                 return true;
             }
         }
@@ -270,7 +310,7 @@ class DesktopWindow {
     }
 
     checkDrag(xPos, yPos) {
-        if (!this.moveable) {
+        if (!this.moveable || this.minimized) {
             return;
         }
         if (xPos > this.xPos + 6 && xPos < this.xPos + this.width - 6) {
@@ -292,6 +332,7 @@ class DesktopWindow {
         if (xPos > this.xPos + this.width - 30 && xPos < this.xPos + this.width - 6) {
             if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
                 openWindows.splice(openWindows.indexOf(this), 1);
+                this.removeTaskbarTab();
                 return true;
             }
         }
@@ -319,6 +360,76 @@ class DesktopWindow {
                 }
             }
         }
+    }
+
+    checkMinimize(xPos, yPos) {
+        let minimizeOffset = 57;
+        if (this.resizable) {
+            minimizeOffset = 82;
+        }
+        if (xPos > this.xPos + this.width - minimizeOffset && xPos < this.xPos + this.width - minimizeOffset + 24) {
+            if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
+                if (!this.minimized) {
+                    this.minimized = true;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    generateTaskbarTab() {
+        /* Structure for HTML:
+
+        <div class="taskbarItem">
+            <div class="openWindow" id="openWindow0">
+                <div class="buttonIcon">
+                    <img src="images/start.png"></img>
+                </div>
+                <div class="openWindowText">
+                    Notepad
+                </div>
+            </div>
+        </div>
+        */
+
+        const openWindowList = document.getElementById("taskbarWindowsList");
+
+        // taskbarItem
+        const taskbarItem = document.createElement("div");
+        taskbarItem.classList.add("taskbarItem");
+        openWindowList.appendChild(taskbarItem);
+
+        // openWindow
+        const openWindow = document.createElement("div");
+        openWindow.classList.add("openWindow");
+        openWindow.id = "openWindow" + this.windowIndex;
+        openWindow.onclick = taskbarClicked;
+        taskbarItem.appendChild(openWindow);
+        taskbarWindowsMap.set(openWindow.id, this);
+
+        // buttonIcon
+        const buttonIcon = document.createElement("div");
+        buttonIcon.classList.add("windowButtonIcon");
+        openWindow.appendChild(buttonIcon);
+
+        // img
+        const image = document.createElement("img");
+        image.src = this.taskbarIcon;
+        buttonIcon.appendChild(image);
+
+        // openWindowText
+        const openWindowText = document.createElement("div");
+        openWindowText.classList.add("openWindowText");
+        openWindowText.innerHTML = this.name;
+        openWindow.appendChild(openWindowText);
+
+        return taskbarItem;
+    }
+
+    removeTaskbarTab() {
+        this.taskbarElement.innerHTML = '';
+        this.taskbarElement.remove();
     }
 
     tick() {

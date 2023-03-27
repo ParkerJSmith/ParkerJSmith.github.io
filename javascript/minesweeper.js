@@ -1,5 +1,6 @@
 class Minesweeper {
     constructor() {
+        this.icon = './images/wine.png';
         this.parent = new DesktopWindow(300, 443, "Winesweeper", this);
         this.parent.resizable = false;
         this.firstMove = true;

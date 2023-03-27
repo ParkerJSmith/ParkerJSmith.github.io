@@ -1,5 +1,6 @@
 class AboutScreen {
     constructor() {
+        this.icon = './images/about.png';
         this.parent = new DesktopWindow(640, 480, "Welcome", this);
         this.parent.resizable = false;
         this.parent.xPos = window.innerWidth / 2 - 640 / 2;
@@ -123,7 +124,6 @@ class AboutScreen {
     }
 
     checkHoverInteraction(xPos, yPos) {
-        console.log(document.getElementById("body").style.cursor);
         if (xPos > this.parent.xPos + 110 && xPos < this.parent.xPos + 330) {
             if (yPos > this.parent.yPos + 390 && yPos < this.parent.yPos + 407) {
                 document.getElementById("body").style.cursor = "pointer";

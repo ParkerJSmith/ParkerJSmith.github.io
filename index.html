@@ -6,6 +6,103 @@
 </head>
 
 <body oncontextmenu="return false;" id="body">
+    <div class="startMenu" id="startMenu">
+        <div class="startMenuBorder">
+            <div class="startMenuBorderText">
+                Parkdows99
+            </div>
+            <div class="startMenuList">
+                <div class="startMenuItem" id="programs">
+                    <div class="startMenuItemIconDiv">
+                        <img class="startMenuItemIcon" src="images/programs.png"></img>
+                    </div>
+                    <div class="startMenuItemText">
+                        Programs
+                    </div>
+                    <div class="startMenuItemTriangle">
+                        <div class="triangleRight"></div>
+                    </div>
+                </div>
+                <div class="startMenuItem" id="documents">
+                    <div class="startMenuItemIconDiv">
+                        <img class="startMenuItemIcon" src="images/file.png"></img>
+                    </div>
+                    <div class="startMenuItemText">
+                        Documents
+                    </div>
+                    <div class="startMenuItemTriangle">
+                        <div class="triangleRight"></div>
+                    </div>
+                </div>
+                <div class="startMenuItem" id="help">
+                    <div class="startMenuItemIconDiv">
+                        <img class="startMenuItemIcon" src="images/help.png"></img>
+                    </div>
+                    <div class="startMenuItemText">
+                        Help
+                    </div>
+                </div>
+                <div class="startMenuItem" id="about">
+                    <div class="startMenuItemIconDiv">
+                        <img class="startMenuItemIcon" src="images/about.png"></img>
+                    </div>
+                    <div class="startMenuItemText">
+                        About
+                    </div>
+                </div>
+                <div class="shutdownBorder">
+                    <div class="shutdownItem" id="shutDown">
+                        <div class="shutdownIcon">
+                            <img class="startMenuItemIcon" src="images/power.png"></img>
+                        </div>
+                        <div class="shutdownText">
+                            Shut Down...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="programList" id="programList">
+            <div class="programListBorder">
+                <div class="programListItem" id="calculator">
+                    <div class="programListItemIcon">
+                        <img class="programIcon" src="images/calculator.png"></img>
+                    </div>
+                    <div class="programListItemName">
+                        Calculator
+                    </div>
+                </div>
+                <div class="programListItem" id="notepad">
+                    <div class="programListItemIcon">
+                        <img class="programIcon" src="images/notepad.png"></img>
+                    </div>
+                    <div class="programListItemName">
+                        Notepad
+                    </div>
+                </div>
+                <div class="programListItem" id="minesweeper">
+                    <div class="programListItemIcon">
+                        <img class="programIcon" src="images/wine.png"></img>
+                    </div>
+                    <div class="programListItemName">
+                        Winesweeper
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="documentList" id="documentList">
+            <div class="documentListBorder">
+                <div class="documentListItem" id="things">
+                    <div class="documentListItemIcon">
+                        <img class="documentIcon" src="images/file.png"></img>
+                    </div>
+                    <div class="documentListItemName">
+                        things_i_believe_in.txt
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <canvas id="canvas">
         If you're seeing this, god help us all.
     </canvas>
@@ -16,7 +113,8 @@
             </div>
         </div>
         <div class="bsodText">
-            Oopsie woopsie, a problem has been detected and Parkdows has been shut down to prevent damage to your computer.
+            Oopsie woopsie, a problem has been detected and Parkdows has been shut down to prevent damage to your
+            computer.
         </div>
     </div>
     <div class="turnedOff" id="turnedOff"></div>
@@ -39,15 +137,15 @@
                     Baby Parker Clicker
                 </div>
             </a>
-            <a class="desktopItem" id="piano" href="https://parkerjsmith.github.io/ReactPiano"
-            target="_blank" draggable="false">
-            <div class="desktopItemIconDiv">
-                <img class="desktopItemIcon" src="images/pianoshortcut.png"></img>
-            </div>
-            <div class="desktopItemName">
-                Piano
-            </div>
-        </a>
+            <a class="desktopItem" id="piano" href="https://parkerjsmith.github.io/ReactPiano" target="_blank"
+                draggable="false">
+                <div class="desktopItemIconDiv">
+                    <img class="desktopItemIcon" src="images/pianoshortcut.png"></img>
+                </div>
+                <div class="desktopItemName">
+                    Piano
+                </div>
+            </a>
         </div>
     </div>
     <div class="taskbar" id="taskbar">
@@ -61,106 +159,12 @@
                 </div>
             </div>
         </div>
+        <div class="taskbarWindowsList" id="taskbarWindowsList">
+        </div>
         <div class="taskbarItem">
             <div class="time">
                 <div class="timeText" id="timeText">
                     6:18 PM
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="startMenu" id="startMenu">
-        <div class="startMenuBorder">
-            <div class="startMenuBorderText">
-                Parkdows99
-            </div>
-            <div class="startMenuList">
-                <div class="startMenuItem" id="programs">
-                    <div class="startMenuItemIconDiv">
-                        <img class="startMenuItemIcon" src="images/programs.png"></img>
-                    </div>
-                    <div class="startMenuItemText">
-                        Programs
-                    </div>
-                    <div class="startMenuItemTriangle">
-                        <div class="triangleRight"></div>
-                    </div>
-                </div>
-            <div class="startMenuItem" id="documents">
-                <div class="startMenuItemIconDiv">
-                    <img class="startMenuItemIcon" src="images/file.png"></img>
-                </div>
-                <div class="startMenuItemText">
-                    Documents
-                </div>
-                <div class="startMenuItemTriangle">
-                    <div class="triangleRight"></div>
-                </div>
-            </div>
-            <div class="startMenuItem" id="help">
-                <div class="startMenuItemIconDiv">
-                    <img class="startMenuItemIcon" src="images/help.png"></img>
-                </div>
-                <div class="startMenuItemText">
-                    Help
-                </div>
-            </div>
-            <div class="startMenuItem" id="about">
-                <div class="startMenuItemIconDiv">
-                    <img class="startMenuItemIcon" src="images/about.png"></img>
-                </div>
-                <div class="startMenuItemText">
-                    About
-                </div>
-            </div>
-            <div class="shutdownBorder">
-                <div class="shutdownItem" id="shutDown">
-                    <div class="shutdownIcon">
-                        <img class="startMenuItemIcon" src="images/power.png"></img>
-                    </div>
-                    <div class="shutdownText">
-                        Shut Down...
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="programList" id="programList">
-        <div class="programListBorder">
-            <div class="programListItem" id="calculator">
-                <div class="programListItemIcon">
-                    <img class="programIcon" src="images/calculator.png"></img>
-                </div>
-                <div class="programListItemName">
-                    Calculator
-                </div>
-            </div>
-            <div class="programListItem" id="notepad">
-                <div class="programListItemIcon">
-                    <img class="programIcon" src="images/notepad.png"></img>
-                </div>
-                <div class="programListItemName">
-                    Notepad
-                </div>
-            </div>
-            <div class="programListItem" id="minesweeper">
-                <div class="programListItemIcon">
-                    <img class="programIcon" src="images/wine.png"></img>
-                </div>
-                <div class="programListItemName">
-                    Winesweeper
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="documentList" id="documentList">
-        <div class="documentListBorder">
-            <div class="documentListItem" id="things">
-                <div class="documentListItemIcon">
-                    <img class="documentIcon" src="images/file.png"></img>
-                </div>
-                <div class="documentListItemName">
-                    things_i_believe_in.txt
                 </div>
             </div>
         </div>
