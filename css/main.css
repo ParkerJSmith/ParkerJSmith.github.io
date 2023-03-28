@@ -70,9 +70,11 @@ canvas {
     border-top: 2px solid white;
 }
 
-.taskbarItem {
+.startContainer {
     padding-left: 5px;
     padding-top: 4px;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .startButton {
@@ -104,7 +106,6 @@ canvas {
     flex-grow: 1;
     display: flex;
     flex-direction: row;
-    overflow: hidden;
 }
 
 .openWindowContainer {
@@ -162,6 +163,13 @@ canvas {
     white-space: nowrap;
 }
 
+.timeContainer {
+    padding-right: 6px;
+    padding-top: 4px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
 .time {
     height: 36px;
     width: 96px;
@@ -171,8 +179,6 @@ canvas {
     border-top: 2px solid rgb(130, 130, 130);
     text-align: center;
     user-select: none;
-    bottom: 5px;
-    right: 5px;
 }
 
 .timeText {

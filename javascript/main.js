@@ -18,6 +18,7 @@ document.getElementById("startButton").addEventListener("click", toggleStartMenu
 document.getElementById("programs").addEventListener("mouseover", showPrograms);
 document.getElementById("documents").addEventListener("mouseover", showDocuments);
 document.getElementById("help").addEventListener("mouseover", closeDropDowns);
+document.getElementById("help").addEventListener("click", createHelpWindow);
 document.getElementById("about").addEventListener("mouseover", closeDropDowns);
 document.getElementById("about").addEventListener("click", createAboutWindow);
 document.getElementById("desktop").addEventListener("mouseover", closeDropDowns);
@@ -159,7 +160,7 @@ function bsod() {
         renderOn = false;
     } else {
         document.getElementById("bsod").style.display = "none";
-        document.getElementById("taskbar").style.display = "block";
+        document.getElementById("taskbar").style.display = "flex";
         renderOn = true;
     }
     document.getElementById("canvas").width = window.innerWidth;
@@ -199,6 +200,12 @@ function createShutdownPopup() {
 
 function createAboutWindow() {
     new AboutScreen();
+    closeStartMenu();
+    closeDropDowns();
+}
+
+function createHelpWindow() {
+    new HelpScreen();
     closeStartMenu();
     closeDropDowns();
 }
