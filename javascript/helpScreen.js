@@ -16,12 +16,12 @@ class HelpScreen {
         xOffset = 48;
         yOffset = 76;
 
-        ctx.font = "50px Franklin Gothic Regular";
+        ctx.font = "50px franklin";
         xOffset = 44;
         yOffset = 106;
         ctx.fillText("How To Use", this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
-        ctx.font = "20px Franklin Gothic Regular";
+        ctx.font = "18px franklin";
         yOffset = 148;
         let lineText = "This website is designed to mimic the experience of desktop com-";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);

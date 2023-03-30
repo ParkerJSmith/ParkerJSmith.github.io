@@ -27,12 +27,12 @@ class AboutScreen {
 
         ctx.drawImage(document.getElementById("parkerImage"), this.parent.xPos + xOffset, this.parent.yPos + yOffset, 197, 225);
 
-        ctx.font = "50px Franklin Gothic Regular";
+        ctx.font = "50px franklin";
         xOffset = 270;
         yOffset = 106;
         ctx.fillText("Welcome", this.parent.xPos + xOffset, this.parent.yPos + yOffset);
 
-        ctx.font = "20px Franklin Gothic Regular";
+        ctx.font = "18px franklin";
         yOffset = 148;
         let lineText = "Hi, I'm Parker and this is my portfolio!";
         ctx.fillText(lineText, this.parent.xPos + xOffset, this.parent.yPos + yOffset);

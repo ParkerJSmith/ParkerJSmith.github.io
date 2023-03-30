@@ -1,6 +1,6 @@
 @font-face { font-family: w95fa; src: url('../fonts/W95FA.otf'); }
 @font-face { font-family: bsod; src: url('../fonts/bsod.ttf'); }
-@font-face { font-family: franklin; src: url('../fonts/FranklinGothicRegular.ttf'); }
+@font-face { font-family: franklin; src: url('../fonts/LibreFranklin-SemiBold.ttf'); }
 
 body {
     background-color: rgb(0, 128, 128);
@@ -274,12 +274,12 @@ canvas {
 .startMenuBorderText {
     color: rgb(195, 195, 195);
     font-size: 60px;
-    font-family:'Franklin Gothic Regular';
+    font-family: franklin;
     transform:rotate(270deg);
     position: fixed;
     user-select: none;
-    left: -120px;
-    bottom: 184px;
+    left: -137px;
+    bottom: 197px;
 }
 
 .startMenuList {
