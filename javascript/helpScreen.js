@@ -1,15 +1,9 @@
-class HelpScreen {
+class HelpScreen extends WindowContent {
     constructor() {
-        this.icon = './images/help.png';
-        this.parent = new DesktopWindow(640, 480, "Help", this);
-        this.parent.resizable = false;
-        this.parent.xPos = window.innerWidth / 2 - 640 / 2;
-        this.parent.yPos = window.innerHeight / 2 - 480 / 2;
+        super(640, 480, "Help", false, './images/help.png');
     }
 
     render() {
-        let imageWidth = 197;
-        let imageHeight = 225;
         let xOffset = 44;
         let yOffset = 72;
 

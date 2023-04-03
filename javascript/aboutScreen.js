@@ -1,10 +1,6 @@
-class AboutScreen {
+class AboutScreen extends WindowContent {
     constructor() {
-        this.icon = './images/about.png';
-        this.parent = new DesktopWindow(640, 480, "Welcome", this);
-        this.parent.resizable = false;
-        this.parent.xPos = window.innerWidth / 2 - 640 / 2;
-        this.parent.yPos = window.innerHeight / 2 - 480 / 2;
+        super(640, 480, "Welcome", false, './images/about.png');
     }
 
     render() {

@@ -17,6 +17,7 @@ class DesktopWindow {
         this.resizeDragY = 0;
         this.moveable = true;
         this.resizable = true;
+        this.minimizable = true;
         this.fullscreen = false;
         this.minimized = false;
         this.close = false;
@@ -98,24 +99,26 @@ class DesktopWindow {
         }
 
         // Draw minimize button
-        let minimizeOffset = 0;
-        if (this.resizable) {
-            minimizeOffset = 25;
-        }
-        ctx.fillStyle = "rgb(195, 195, 195)";
-        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 22, 22);
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 30, 22, 2);
-        ctx.fillRect(this.xPos + this.width - 35 - minimizeOffset, this.yPos + 10, 2, 22);
-        ctx.fillStyle = "rgb(130, 130, 130)";
-        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 28, 20, 2);
-        ctx.fillRect(this.xPos + this.width - 37 - minimizeOffset, this.yPos + 10, 2, 20);
-        ctx.fillStyle = "white";
-        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 20, 2);
-        ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 2, 20);
+        if (this.minimizable) {
+            let minimizeOffset = 0;
+            if (this.resizable) {
+                minimizeOffset = 25;
+            }
+            ctx.fillStyle = "rgb(195, 195, 195)";
+            ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 22, 22);
+            ctx.fillStyle = "black";
+            ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 30, 22, 2);
+            ctx.fillRect(this.xPos + this.width - 35 - minimizeOffset, this.yPos + 10, 2, 22);
+            ctx.fillStyle = "rgb(130, 130, 130)";
+            ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 28, 20, 2);
+            ctx.fillRect(this.xPos + this.width - 37 - minimizeOffset, this.yPos + 10, 2, 20);
+            ctx.fillStyle = "white";
+            ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 20, 2);
+            ctx.fillRect(this.xPos + this.width - 55 - minimizeOffset, this.yPos + 10, 2, 20);
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.xPos + this.width - 51 - minimizeOffset, this.yPos + 24, 12, 2);
+            ctx.fillStyle = "black";
+            ctx.fillRect(this.xPos + this.width - 51 - minimizeOffset, this.yPos + 24, 12, 2);
+        }
 
         this.windowContent.render();
     }
@@ -136,7 +139,9 @@ class DesktopWindow {
         if (xPos > this.xPos && xPos < this.xPos + this.width) {
             if (yPos > this.yPos && yPos < this.yPos + this.height) {
                 this.windowContent.checkInteraction(xPos, yPos);
-                return 1;
+                if (!this.close) {
+                    return 1;
+                }
             }
         }
         return 0;
@@ -333,8 +338,7 @@ class DesktopWindow {
     checkClose(xPos, yPos) {
         if (xPos > this.xPos + this.width - 30 && xPos < this.xPos + this.width - 6) {
             if (yPos > this.yPos + 6 && yPos < this.yPos + 30) {
-                openWindows.splice(openWindows.indexOf(this), 1);
-                this.removeTaskbarTab();
+                this.closeWindow();
                 return true;
             }
         }
@@ -368,6 +372,9 @@ class DesktopWindow {
     }
 
     checkMinimize(xPos, yPos) {
+        if (!this.minimizable) {
+            return false;
+        }
         let minimizeOffset = 57;
         if (this.resizable) {
             minimizeOffset = 82;
@@ -437,6 +444,12 @@ class DesktopWindow {
     removeTaskbarTab() {
         this.taskbarElement.innerHTML = '';
         this.taskbarElement.remove();
+    }
+
+    closeWindow() {
+        openWindows.splice(openWindows.indexOf(this), 1);
+        this.removeTaskbarTab();
+        this.close = true;
     }
 
     tick() {

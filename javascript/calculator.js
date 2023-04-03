@@ -1,36 +1,52 @@
-class Calculator {
+const FIRST_COLUMN = 31;
+const SECOND_COLUMN = 81;
+const THIRD_COLUMN = 131;
+const FOURTH_COLUMN = 181;
+const FIFTH_COLUMN = 231;
+
+const FIRST_ROW = 183;
+const SECOND_ROW = 233;
+const THIRD_ROW = 283;
+const FOURTH_ROW = 333;
+
+const SPECIAL_ROW = 118;
+
+const BACK_X = 83;
+const CLEAR_ENTRY_X = 149;
+const CLEAR_X = 217;
+
+class Calculator extends WindowContent {
     constructor() {
-        this.icon = './images/calculator.png';
-        this.parent = new DesktopWindow(300, 400, "Calculator", this);
-        this.parent.resizable = false;
+        super(300, 400, "Calculator", false, './images/calculator.png');
         this.currentExpression = "";
-        this.buttonsList = [];
+
         for (let i = 0; i < 9; i++) {
             let xOffset = (i % 3) * 50 + 31;
             let yOffset = -1 * Math.floor(i / 3) * 50 + 283;
-            this.buttonsList.push(new CalculatorButton(i + 1, xOffset, yOffset, 38, 38, this.parent));
+            this.addButton(xOffset, yOffset, 38, 38, this.appendExpression.bind(this, i + 1));
         }
-        this.buttonsList.push(new CalculatorButton(0, 31, 333, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("negate", 81, 333, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton(".", 131, 333, 38, 38, this.parent));
+        this.addButton(FIRST_COLUMN, FOURTH_ROW, 38, 38, this.appendExpression.bind(this, 0));
 
-        this.buttonsList.push(new CalculatorButton("/", 181, 183, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("*", 181, 233, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("-", 181, 283, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("+", 181, 333, 38, 38, this.parent));
+        this.addButton(SECOND_COLUMN, FOURTH_ROW, 38, 38, this.appendExpression.bind(this, "negate"));
+        this.addButton(THIRD_COLUMN, FOURTH_ROW, 38, 38, this.appendExpression.bind(this, "."));
 
-        this.buttonsList.push(new CalculatorButton("sqrt", 231, 183, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("%", 231, 233, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("inverse", 231, 283, 38, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("=", 231, 333, 38, 38, this.parent));
+        this.addButton(FOURTH_COLUMN, FIRST_ROW, 38, 38, this.appendExpression.bind(this, "/"));
+        this.addButton(FOURTH_COLUMN, SECOND_ROW, 38, 38, this.appendExpression.bind(this, "*"));
+        this.addButton(FOURTH_COLUMN, THIRD_ROW, 38, 38, this.appendExpression.bind(this, "-"));
+        this.addButton(FOURTH_COLUMN, FOURTH_ROW, 38, 38, this.appendExpression.bind(this, "+"));
 
-        this.buttonsList.push(new CalculatorButton("back", 83, 118, 54, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("clearEntry", 149, 118, 54, 38, this.parent));
-        this.buttonsList.push(new CalculatorButton("clear", 217, 118, 54, 38, this.parent));
+        this.addButton(FIFTH_COLUMN, FIRST_ROW, 38, 38, this.appendExpression.bind(this, "sqrt"));
+        this.addButton(FIFTH_COLUMN, SECOND_ROW, 38, 38, this.appendExpression.bind(this, "%"));
+        this.addButton(FIFTH_COLUMN, THIRD_ROW, 38, 38, this.appendExpression.bind(this, "inverse"));
+        this.addButton(FIFTH_COLUMN, FOURTH_ROW, 38, 38, this.appendExpression.bind(this, "="));
+
+        this.addButton(BACK_X, SPECIAL_ROW, 54, 38, this.appendExpression.bind(this, "back"));
+        this.addButton(CLEAR_ENTRY_X, SPECIAL_ROW, 54, 38, this.appendExpression.bind(this, "clearEntry"));
+        this.addButton(CLEAR_X, SPECIAL_ROW, 54, 38, this.appendExpression.bind(this, "clear"));
     }
 
     render() {
-
+        super.render();
         // Draw screen
         ctx.fillStyle = "white";
         ctx.fillRect(this.parent.xPos + 10, this.parent.yPos + 40, this.parent.width - 18, 40);
@@ -47,24 +63,7 @@ class Calculator {
         ctx.fillRect(this.parent.xPos + 12, this.parent.yPos + 78, this.parent.width - 20, 2);
         ctx.fillRect(this.parent.xPos + this.parent.width - 10, this.parent.yPos + 42, 2, 36);
 
-        // Draw number buttons
-        for (let i = 0; i < 20; i++) {
-            let xOffset = (i % 5) * 50 + 19;
-            let yOffset = Math.floor(i / 5) * 50 + 85;
-
-            ctx.fillStyle = "black";
-            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 134 + yOffset, 36, 2);
-            ctx.fillRect(this.parent.xPos + 48 + xOffset, this.parent.yPos + 98 + yOffset, 2, 38);
-
-            ctx.fillStyle = "rgb(130, 130, 130)";
-            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 132 + yOffset, 34, 2);
-            ctx.fillRect(this.parent.xPos + 46 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
-
-            ctx.fillStyle = "rgb(235, 235, 235)";
-            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 36, 2);
-            ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
-        }
-
+        // Draw numbers
         ctx.font = "26px w95fa";
         for (let i = 0; i < 9; i++) {
             ctx.fillStyle = "#0000aa";
@@ -96,18 +95,6 @@ class Calculator {
         let xOffset = 205;
         let yOffset = 20;
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 134 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 64 + xOffset, this.parent.yPos + 98 + yOffset, 2, 38);
-
-        ctx.fillStyle = "rgb(130, 130, 130)";
-        ctx.fillRect(this.parent.xPos + 14 + xOffset, this.parent.yPos + 132 + yOffset, 48, 2);
-        ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
-
-        ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
-
         ctx.fillStyle = "#760000";
         ctx.font = "22px w95fa";
         ctx.fillText("C", this.parent.xPos + 33 + xOffset, this.parent.yPos + 124 + yOffset);
@@ -116,18 +103,6 @@ class Calculator {
         xOffset = 137;
         yOffset = 20;
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 134 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 64 + xOffset, this.parent.yPos + 98 + yOffset, 2, 38);
-
-        ctx.fillStyle = "rgb(130, 130, 130)";
-        ctx.fillRect(this.parent.xPos + 14 + xOffset, this.parent.yPos + 132 + yOffset, 48, 2);
-        ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
-
-        ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
-
         ctx.fillStyle = "#760000";
         ctx.font = "22px w95fa";
         ctx.fillText("CE", this.parent.xPos + 27 + xOffset, this.parent.yPos + 124 + yOffset);
@@ -135,18 +110,6 @@ class Calculator {
         // Back button
         xOffset = 71;
         yOffset = 20;
-
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 134 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 64 + xOffset, this.parent.yPos + 98 + yOffset, 2, 38);
-
-        ctx.fillStyle = "rgb(130, 130, 130)";
-        ctx.fillRect(this.parent.xPos + 14 + xOffset, this.parent.yPos + 132 + yOffset, 48, 2);
-        ctx.fillRect(this.parent.xPos + 62 + xOffset, this.parent.yPos + 98 + yOffset, 2, 36);
-
-        ctx.fillStyle = "rgb(235, 235, 235)";
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 98 + yOffset, 52, 2);
-        ctx.fillRect(this.parent.xPos + 12 + xOffset, this.parent.yPos + 100 + yOffset, 2, 34);
 
         ctx.fillStyle = "#760000";
         ctx.font = "22px w95fa";
@@ -158,45 +121,42 @@ class Calculator {
 
     }
 
-    checkInteraction(xPos, yPos) {
-        if (xPos < this.parent.xPos || xPos > this.parent.xPos + this.parent.width ||
-            yPos < this.parent.yPos || yPos > this.parent.yPos + this.parent.height) {
-            return;
+    checkInteraction(mouseX, mouseY) {
+        super.checkInteraction(mouseX, mouseY);
+    }
+
+    appendExpression(input) {
+        if (this.currentExpression.length >= 18 && !(input == "=" || input == "clear")) {
+            input = "";
         }
-        for (let i = 0; i < this.buttonsList.length; i++) {
-            let input = this.buttonsList[i].checkPressed(xPos, yPos);
-            if (this.currentExpression.length >= 18 && !(input == "=" || input == "clear")) {
-                input = "";
-            }
-            if (!isNaN(input)) {
-                this.currentExpression += input;
-            } else {
-                switch (input) {
-                    case "=":
-                        this.currentExpression = this.evaluateExpression(this.currentExpression);
-                        break;
-                    case "clear":
-                        this.currentExpression = "";
-                        break;
-                    case "back":
-                        this.currentExpression = this.currentExpression.slice(0, this.currentExpression.length - 1);
-                        break;
-                    case "+":
-                        this.currentExpression += " " + input + " ";
-                        break;
-                    case "-":
-                        this.currentExpression += " " + input + " ";
-                        break;
-                    case "/":
-                        this.currentExpression += " " + input + " ";
-                        break;
-                    case "*":
-                        this.currentExpression += " " + input + " ";
-                        break;
-                    case ".":
-                        this.currentExpression += ".";
-                        break;
-                }
+        if (!isNaN(input)) {
+            this.currentExpression += input;
+        } else {
+            switch (input) {
+                case "=":
+                    this.currentExpression = this.evaluateExpression(this.currentExpression);
+                    break;
+                case "clear":
+                    this.currentExpression = "";
+                    break;
+                case "back":
+                    this.currentExpression = this.currentExpression.slice(0, this.currentExpression.length - 1);
+                    break;
+                case "+":
+                    this.currentExpression += " " + input + " ";
+                    break;
+                case "-":
+                    this.currentExpression += " " + input + " ";
+                    break;
+                case "/":
+                    this.currentExpression += " " + input + " ";
+                    break;
+                case "*":
+                    this.currentExpression += " " + input + " ";
+                    break;
+                case ".":
+                    this.currentExpression += ".";
+                    break;
             }
         }
     }
@@ -288,25 +248,5 @@ class Calculator {
             }
         }
         return expression;
-    }
-}
-
-class CalculatorButton {
-    constructor(buttonValue, xPos, yPos, width, height, parent) {
-        this.buttonValue = buttonValue;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
-        this.parent = parent;
-    }
-
-    checkPressed(xPos, yPos) {
-        if (xPos > this.parent.xPos + this.xPos && xPos < this.parent.xPos + this.xPos + this.width) {
-            if (yPos > this.parent.yPos + this.yPos && yPos < this.parent.yPos + this.yPos + this.height) {
-                return this.buttonValue;
-            }
-        }
-        return "";
     }
 }

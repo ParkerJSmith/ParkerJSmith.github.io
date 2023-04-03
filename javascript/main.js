@@ -65,7 +65,7 @@ function gameLoop() {
 
 function tick() {
     updateTime();
-    closeWindows();
+    //closeWindows();
 }
 
 function render() {

@@ -1,8 +1,6 @@
-class Minesweeper {
+class Minesweeper extends WindowContent {
     constructor() {
-        this.icon = './images/wine.png';
-        this.parent = new DesktopWindow(300, 443, "Winesweeper", this);
-        this.parent.resizable = false;
+        super(300, 443, "Winesweeper", false, './images/wine.png');
         this.firstMove = true;
         this.spaceList = [];
 
@@ -11,9 +9,12 @@ class Minesweeper {
                 this.spaceList.push(new Space(i, j, 0, this.parent, this));
             }
         }
+
+        this.addButton(120, 72, 60, 60, this.resetGame.bind(this));
     }
 
     render() {
+        super.render();
         // Borders of score area
         let xOffset = 14;
         let yOffset = 140;
@@ -132,15 +133,10 @@ class Minesweeper {
         }
     }
 
-    checkInteraction(xPos, yPos) {
-        if (xPos > this.parent.xPos + 120 && xPos < this.parent.xPos + 180) {
-            if (yPos > this.parent.yPos + 72 && yPos < this.parent.yPos + 132) {
-                this.resetGame();
-                return;
-            }
-        }
+    checkInteraction(mouseX, mouseY) {
+        super.checkInteraction(mouseX, mouseY);
         for (let i = 0; i < this.spaceList.length; i++) {
-            this.spaceList[i].checkPressed(xPos, yPos);
+            this.spaceList[i].checkPressed(mouseX, mouseY);
         }
     }
 
